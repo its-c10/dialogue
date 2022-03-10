@@ -1,3 +1,0 @@
-name: Dialogue
-version: '${project.version}'
-main: com.nthbyte.dialogue.Dialogue
