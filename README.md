@@ -1,1 +1,2 @@
-![Release](https://jitpack.io/v/User/Repo.svg)
+[![Release](https://jitpack.io/v/User/Repo.svg)]
+(https://jitpack.io/#User/Repo)
