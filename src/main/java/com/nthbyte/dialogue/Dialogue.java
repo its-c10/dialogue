@@ -21,7 +21,7 @@ public class Dialogue {
     /**
      * Actions that are ran when the dialogue ends.
      */
-    private Consumer<Void> endAction;
+    private Consumer<DialogueEndCause> endAction;
 
     private int currentIndexPrompt = 0;
 
@@ -67,7 +67,7 @@ public class Dialogue {
         getCurrentPrompt().prompt(player);
     }
 
-    public Consumer<Void> getEndAction() {
+    public Consumer<DialogueEndCause> getEndAction() {
         return endAction;
     }
 
@@ -79,7 +79,7 @@ public class Dialogue {
 
         private String escapeSequence;
         private List<Prompt> prompts = new ArrayList<>();
-        private Consumer<Void> endAction;
+        private Consumer<DialogueEndCause> endAction;
 
         public Builder(){}
 
@@ -93,7 +93,7 @@ public class Dialogue {
             return this;
         }
 
-        public Builder setEndAction(Consumer<Void> action){
+        public Builder setEndAction(Consumer<DialogueEndCause> action){
             this.endAction = action;
             return this;
         }

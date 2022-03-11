@@ -3,6 +3,7 @@ package com.nthbyte.dialogue;
 import org.bukkit.entity.Player;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Prompt {
 
@@ -14,7 +15,7 @@ public class Prompt {
     /**
      * The type of prompt this is.
      */
-    private PromptType type;
+    private PromptInputType type;
 
     /**
      * The text that is sent to the player.
@@ -22,27 +23,37 @@ public class Prompt {
     private String text;
 
     /**
-     * The action that runs whenever you receive input.
+     * The action that runs whenever you receive input SUCCESSFULLY, meaning it's valid input. Runs after the input format gets validated.
      */
     private Consumer<String> onReceiveInputAction;
 
-    private Prompt(String id, String text, PromptType type, Consumer<String> onReceiveInputAction){
-        this.id = id;
-        this.text = text;
-        this.type = type;
-        this.onReceiveInputAction = onReceiveInputAction;
+    /**
+     * The action that runs whenever you are validating input.
+     */
+    private Function<String, Boolean> onValidateInputAction;
+
+    private Prompt(Prompt.Builder builder){
+        this.id = builder.id;
+        this.text = builder.text;
+        this.type = builder.type;
+        this.onReceiveInputAction = builder.onReceiveInputAction;
+        this.onValidateInputAction = builder.onValidateInputAction;
     }
 
     public String getId() {
         return id;
     }
 
-    public PromptType getType() {
+    public PromptInputType getType() {
         return type;
     }
 
     public Consumer<String> getOnReceiveInputAction() {
         return onReceiveInputAction;
+    }
+
+    public Function<String, Boolean> getOnValidateInputAction() {
+        return onValidateInputAction;
     }
 
     public void prompt(Player player){
@@ -52,9 +63,10 @@ public class Prompt {
     public static class Builder{
 
         private String text;
-        private PromptType type;
+        private PromptInputType type;
         private String id;
         private Consumer<String> onReceiveInputAction;
+        private Function<String, Boolean> onValidateInputAction;
 
         public Builder(){}
 
@@ -63,7 +75,7 @@ public class Prompt {
             return this;
         }
 
-        public Builder setType(PromptType type){
+        public Builder setType(PromptInputType type){
             this.type = type;
             return this;
         }
@@ -78,12 +90,15 @@ public class Prompt {
             return this;
         }
 
+        public Builder setOnValidateInputAction(Function<String, Boolean> onValidateInputAction) {
+            this.onValidateInputAction = onValidateInputAction;
+            return this;
+        }
+
         public Prompt build(){
-            return new Prompt(id, text, type, onReceiveInputAction);
+            return new Prompt(this);
         }
 
     }
-
-
 
 }

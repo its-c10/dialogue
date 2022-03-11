@@ -25,8 +25,8 @@ public class DialogueAPI {
         dialogueManager.startDialogue(player, dialogue);
     }
 
-    public static void endDialogue(Player player){
-        dialogueManager.endDialogue(player);
+    public static void endDialogue(Player player, DialogueEndCause cause){
+        dialogueManager.endDialogue(player, cause);
     }
 
     public static Dialogue getDialogue(Player player){

@@ -6,7 +6,13 @@
 
     <groupId>com.nthbyte</groupId>
     <artifactId>dialogue</artifactId>
-    <version>0.1.0.0</version>
+    <!--
+        First number will increment for plugin re-writes.
+        Second number I will increment whenever there's a significant change/API changes, meaning you will need to change something in your code in order to work with this current version.
+        Third number I will change whenever I add a new feature.
+        Fourth number I will change for bug fixes or small changes.
+    -->
+    <version>1.0.0.0</version>
     <packaging>jar</packaging>
 
     <name>Dialogue</name>

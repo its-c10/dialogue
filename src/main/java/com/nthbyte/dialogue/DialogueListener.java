@@ -9,6 +9,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class DialogueListener implements Listener {
 
@@ -60,22 +62,30 @@ public class DialogueListener implements Listener {
     public void onReceiveInputOther(ReceiveInputEvent e){
         Prompt prompt = e.getPrompt();
         String input = e.getInput();
-        prompt.getOnReceiveInputAction().accept(input);
+        Consumer<String> onReceiveInputAction = prompt.getOnReceiveInputAction();
+        if(onReceiveInputAction != null ){
+            onReceiveInputAction.accept(input);
+        }
     }
 
     private void fireReceiveInputEvent(Player player, Dialogue dialogue, String input){
 
         Prompt prompt = dialogue.getCurrentPrompt();
-        PromptType promptType = prompt.getType();
+        PromptInputType inputType = prompt.getType();
 
         if(input.equalsIgnoreCase(dialogue.getEscapeSequence())){
-            DialogueAPI.endDialogue(player);
+            DialogueAPI.endDialogue(player, DialogueEndCause.ESCAPE_SEQUENCE);
             return;
         }
 
-        if(!InputValidator.isValidInput(promptType, input)){
-            player.sendMessage(Utils.tr("&cThis is not valid input. The input type should be " + promptType));
+        if(!InputFormatValidator.isValidFormat(inputType, input)){
+            player.sendMessage(Utils.tr("&cThe input is not in the valid format! The input type should be " + inputType));
             prompt.prompt(player);
+            return;
+        }
+
+        Function<String, Boolean> validationAction = prompt.getOnValidateInputAction();
+        if(validationAction != null && !validationAction.apply(input)){
             return;
         }
 
@@ -84,7 +94,7 @@ public class DialogueListener implements Listener {
         if(dialogue.hasMorePrompts()){
             dialogue.nextPrompt(player);
         }else{
-            DialogueAPI.endDialogue(player);
+            DialogueAPI.endDialogue(player, DialogueEndCause.NO_MORE_PROMPTS);
         }
 
     }
