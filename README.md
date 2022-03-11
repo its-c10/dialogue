@@ -29,7 +29,7 @@ DialogueAPI.hook(this);
 ```
 All this does is register the dialogue listener and initializes DialogueManager
 
-From this point on, you can either look at this <a href="https://github.com/its-c10/dialogue-example">example plugin</a> that uses this API or refer to the <a href="https://github.com/its-c10/dialogue-example/wiki">wiki</a>
+From this point on, you can either look at this <a href="https://github.com/its-c10/dialogue-example">example plugin</a> that uses this API or refer to the <a href="https://github.com/nthByte-LLC/dialogue/wiki">wiki</a>
 
 
 
