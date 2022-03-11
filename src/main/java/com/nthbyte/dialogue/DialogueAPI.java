@@ -1,6 +1,10 @@
 package com.nthbyte.dialogue;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class DialogueAPI {
 
@@ -13,8 +17,24 @@ public class DialogueAPI {
         hookingPlugin.getServer().getPluginManager().registerEvents(new DialogueListener(hookingPlugin), hookingPlugin);
     }
 
-    public static DialogueManager getDialogueManager() {
-        return dialogueManager;
+    public static boolean isHavingDialogue(Player player){
+        return dialogueManager.isConversing(player);
+    }
+
+    public static void startDialogue(Player player, Dialogue dialogue){
+        dialogueManager.startDialogue(player, dialogue);
+    }
+
+    public static void endDialogue(Player player){
+        dialogueManager.endDialogue(player);
+    }
+
+    public static Dialogue getDialogue(Player player){
+        return dialogueManager.getDialogue(player);
+    }
+
+    public static Map<UUID, Dialogue> getPlayersInDialogue(){
+        return dialogueManager.getPlayersInPrompt();
     }
 
 }

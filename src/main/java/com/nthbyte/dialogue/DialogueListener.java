@@ -21,17 +21,16 @@ public class DialogueListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e){
 
-        DialogueManager dialogueManager = DialogueAPI.getDialogueManager();
-        Set<UUID> playersBeingPrompted = dialogueManager.getPlayersInPrompt().keySet();
+        Set<UUID> playersBeingPrompted = DialogueAPI.getPlayersInDialogue().keySet();
 
         // Blocks all messages for recipients that are being prompted at the moment.
         // Players that are being prompted shouldn't receive any messages from other players.
         e.getRecipients().removeIf(recipient -> playersBeingPrompted.contains(recipient.getUniqueId()));
 
         Player player = e.getPlayer();
-        if(dialogueManager.isConversing(player)){
+        if(DialogueAPI.isHavingDialogue(player)){
             e.setCancelled(true);
-            Dialogue dialogue = dialogueManager.getDialogue(player);
+            Dialogue dialogue = DialogueAPI.getDialogue(player);
             fireReceiveInputEvent(player, dialogue, e.getMessage());
         }
 
@@ -69,9 +68,8 @@ public class DialogueListener implements Listener {
         Prompt prompt = dialogue.getCurrentPrompt();
         PromptType promptType = prompt.getType();
 
-        DialogueManager dialogueManager = DialogueAPI.getDialogueManager();
         if(input.equalsIgnoreCase(dialogue.getEscapeSequence())){
-            dialogueManager.endDialogue(player);
+            DialogueAPI.endDialogue(player);
             return;
         }
 
@@ -86,7 +84,7 @@ public class DialogueListener implements Listener {
         if(dialogue.hasMorePrompts()){
             dialogue.nextPrompt(player);
         }else{
-            dialogueManager.endDialogue(player);
+            DialogueAPI.endDialogue(player);
         }
 
     }
