@@ -5,6 +5,11 @@ import org.bukkit.entity.Player;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Represents a question or a request.
+ * @author <a href="linktr.ee/c10_">Caleb Owens</a>
+ * @version 1.0.0.0
+ */
 public class Prompt {
 
     /**

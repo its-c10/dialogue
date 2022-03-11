@@ -1,7 +1,10 @@
 package com.nthbyte.dialogue;
 
-import java.util.UUID;
-
+/**
+ * The different types of input for prompts.
+ * @author <a href="linktr.ee/c10_">Caleb Owens</a>
+ * @version 1.0.0.0
+ */
 public enum PromptInputType {
 
     /**

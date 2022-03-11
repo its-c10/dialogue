@@ -3,9 +3,11 @@ package com.nthbyte.dialogue;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Map;
-import java.util.UUID;
-
+ /**
+ * An API that completely eliminates your need for the ConversationsAPI
+ * @author <a href="linktr.ee/c10_">Caleb Owens</a>
+ * @version 1.0.0.0
+ */
 public class DialogueAPI {
 
     private static DialogueManager dialogueManager;

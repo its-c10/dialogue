@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Object for player input.
+ * Object that represents dialogue between the plugin and a player.
+ * @author <a href="linktr.ee/c10_">Caleb Owens</a>
+ * @version 1.0.0.0
  */
 public class Dialogue {
 

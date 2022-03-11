@@ -6,7 +6,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * Event fired when you receive input from a player.
+ * Event fired when you receive input from a player (after validation)
+ * @author <a href="linktr.ee/c10_">Caleb Owens</a>
+ * @version 1.0.0.0
  */
 public class ReceiveInputEvent extends Event {
 

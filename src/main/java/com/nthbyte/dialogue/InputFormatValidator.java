@@ -3,11 +3,13 @@ package com.nthbyte.dialogue;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.UUID;
-import java.util.regex.Pattern;
 
+/**
+ * Validates the format of input.
+ * @author <a href="linktr.ee/c10_">Caleb Owens</a>
+ * @version 1.0.0.0
+ */
 public class InputFormatValidator {
-
-    private final static Pattern LETTERS_PATTERN = Pattern.compile("^[a-zA-Z]*$");
 
     /**
      * Validates the input format. If the prompt type isn't supported, then the input automatically is passed as "valid."
