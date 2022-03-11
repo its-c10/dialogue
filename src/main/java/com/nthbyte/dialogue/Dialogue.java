@@ -9,32 +9,32 @@ import java.util.function.Consumer;
 /**
  * Object for player input.
  */
-public class Conversation {
+public class Dialogue {
 
     /**
-     * The sequence that you have to type in order to quit the conversation.
+     * The sequence that you have to type in order to quit the dialogue.
      */
     private String escapeSequence;
 
     private List<Prompt> prompts;
 
     /**
-     * Actions that are ran when the conversation ends.
+     * Actions that are ran when the dialogue ends.
      */
     private Consumer<Void> endAction;
 
     private int currentIndexPrompt = 0;
 
-    private Conversation(){}
+    private Dialogue(){}
 
-    private Conversation(Conversation.Builder builder){
+    private Dialogue(Dialogue.Builder builder){
         this.prompts = builder.prompts;
         this.endAction = builder.endAction;
         this.escapeSequence = builder.escapeSequence;
     }
 
     /**
-     * Gets the current prompt this conversation is on.
+     * Gets the current prompt this dialogue is on.
      * @return The current prompt.
      */
     public Prompt getCurrentPrompt(){
@@ -42,15 +42,15 @@ public class Conversation {
     }
 
     /**
-     * Whether the conversation has more prompts.
-     * @return If the conversation has more prompts.
+     * Whether the dialogue has more prompts.
+     * @return If the dialogue has more prompts.
      */
     public boolean hasMorePrompts(){
         return currentIndexPrompt != prompts.size() - 1;
     }
 
 //    /**
-//     * Starts the conversation with the first prompt.
+//     * Starts the dialogue with the first prompt.
 //     * @param player The player we are conversing with.
 //     */
 //    public void start(Player player){
@@ -98,8 +98,8 @@ public class Conversation {
             return this;
         }
 
-        public Conversation build(){
-            return new Conversation(this);
+        public Dialogue build(){
+            return new Dialogue(this);
         }
 
     }

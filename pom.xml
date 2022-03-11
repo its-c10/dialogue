@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.nthbyte</groupId>
+    <groupId>com.nthbyte</groupId>
     <artifactId>dialogue</artifactId>
     <version>0.1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Dialogue</name>
 
-    <description>A Spigot library that removes the need to use the ConversationsAPI</description>
+    <description>A Spigot API that removes the need to use the ConversationsAPI</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
