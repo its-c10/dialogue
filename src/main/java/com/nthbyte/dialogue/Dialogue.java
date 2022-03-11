@@ -75,6 +75,10 @@ public class Dialogue {
         return escapeSequence;
     }
 
+    public int getCurrentIndexPrompt() {
+        return currentIndexPrompt;
+    }
+
     public static class Builder{
 
         private String escapeSequence;

@@ -1,5 +1,6 @@
 package com.nthbyte.dialogue;
 
+import com.nthbyte.dialogue.event.ReceiveInputEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -1,5 +1,6 @@
-package com.nthbyte.dialogue;
+package com.nthbyte.dialogue.event;
 
+import com.nthbyte.dialogue.Prompt;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

@@ -62,9 +62,9 @@ public class Prompt {
 
     public static class Builder{
 
-        private String text;
-        private PromptInputType type;
         private String id;
+        private String text;
+        private PromptInputType type = PromptInputType.NONE;
         private Consumer<String> onReceiveInputAction;
         private Function<String, Boolean> onValidateInputAction;
 
@@ -80,7 +80,7 @@ public class Prompt {
             return this;
         }
 
-        public Builder setId(String id) {
+        public Builder setId(String id){
             this.id = id;
             return this;
         }

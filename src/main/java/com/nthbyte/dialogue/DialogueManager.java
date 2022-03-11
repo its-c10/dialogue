@@ -1,6 +1,8 @@
 package com.nthbyte.dialogue;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -16,17 +18,27 @@ public class DialogueManager {
         return playersInDialogue;
     }
 
+    private JavaPlugin plugin;
+
+    public DialogueManager(JavaPlugin plugin){
+        this.plugin = plugin;
+    }
+
     public boolean isConversing(Player player){
         return playersInDialogue.containsKey(player.getUniqueId());
     }
 
     public void startDialogue(Player player, Dialogue dialogue){
+
         // They are trying start a dialogue that has previously already ended.
-        if(!dialogue.hasMorePrompts()){
+        if(dialogue.getCurrentIndexPrompt() != 0){
             throw new IllegalStateException("You can not start a dialogue that has already ended!");
         }
+        // Ends any dialogue they could potentially be in currently.
         endDialogue(player, DialogueEndCause.STARTED_ANOTHER_DIALOGUE);
-        player.closeInventory();
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::closeInventory);
+
         playersInDialogue.put(player.getUniqueId(), dialogue);
         dialogue.getCurrentPrompt().prompt(player);
     }

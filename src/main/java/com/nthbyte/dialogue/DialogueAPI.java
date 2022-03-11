@@ -15,7 +15,7 @@ public class DialogueAPI {
      * @param hookingPlugin A plugin instance.
      */
     public static void hook(JavaPlugin hookingPlugin){
-        dialogueManager = new DialogueManager();
+        dialogueManager = new DialogueManager(hookingPlugin);
         hookingPlugin.getServer().getPluginManager().registerEvents(new DialogueListener(dialogueManager), hookingPlugin);
     }
 
