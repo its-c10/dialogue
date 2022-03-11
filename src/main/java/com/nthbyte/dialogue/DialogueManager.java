@@ -21,20 +21,29 @@ public class DialogueManager {
     }
 
     public void startDialogue(Player player, Dialogue dialogue){
+        // They are trying start a dialogue that has previously already ended.
+        if(!dialogue.hasMorePrompts()){
+            throw new IllegalStateException("You can not start a dialogue that has already ended!");
+        }
+        endDialogue(player, DialogueEndCause.STARTED_ANOTHER_DIALOGUE);
         player.closeInventory();
         playersInDialogue.put(player.getUniqueId(), dialogue);
         dialogue.getCurrentPrompt().prompt(player);
     }
 
     public void endDialogue(Player player, DialogueEndCause cause){
+
         Dialogue endedDialogue = playersInDialogue.remove(player.getUniqueId());
+        if(endedDialogue == null) return;
+
         Consumer<DialogueEndCause> endAction = endedDialogue.getEndAction();
         if(endAction != null){
             endAction.accept(cause);
         }
+
     }
 
-    public Dialogue getDialogue(Player player){
+    public Dialogue getCurrentDialogue(Player player){
         return playersInDialogue.get(player.getUniqueId());
     }
 

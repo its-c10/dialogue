@@ -23,6 +23,11 @@ public enum DialogueEndCause {
     /**
      * Some other reason for ending the dialogue.
      */
-    OTHER
+    OTHER,
+
+    /**
+     * The start of another dialogue has halted the current one.
+     */
+    STARTED_ANOTHER_DIALOGUE;
 
 }

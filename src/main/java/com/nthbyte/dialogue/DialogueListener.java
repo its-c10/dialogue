@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
 import java.util.UUID;
@@ -14,16 +13,16 @@ import java.util.function.Function;
 
 public class DialogueListener implements Listener {
 
-    private JavaPlugin plugin;
+    private DialogueManager dialogueManager;
 
-    public DialogueListener(JavaPlugin plugin){
-        this.plugin = plugin;
+    public DialogueListener(DialogueManager dialogueManager){
+        this.dialogueManager = dialogueManager;
     }
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e){
 
-        Set<UUID> playersBeingPrompted = DialogueAPI.getPlayersInDialogue().keySet();
+        Set<UUID> playersBeingPrompted = dialogueManager.getPlayersInPrompt().keySet();
 
         // Blocks all messages for recipients that are being prompted at the moment.
         // Players that are being prompted shouldn't receive any messages from other players.
@@ -32,7 +31,7 @@ public class DialogueListener implements Listener {
         Player player = e.getPlayer();
         if(DialogueAPI.isHavingDialogue(player)){
             e.setCancelled(true);
-            Dialogue dialogue = DialogueAPI.getDialogue(player);
+            Dialogue dialogue = dialogueManager.getCurrentDialogue(player);
             fireReceiveInputEvent(player, dialogue, e.getMessage());
         }
 
@@ -42,9 +41,9 @@ public class DialogueListener implements Listener {
         Another way to deal with the receiving of input if you don't want to use the consumer.
      */
 
-    @EventHandler
-    public void onReceiveInput(ReceiveInputEvent e) {
-
+//    @EventHandler
+//    public void onReceiveInput(ReceiveInputEvent e) {
+//
 //        Prompt prompt = e.getPrompt();
 //
 //        if (!prompt.getId().equalsIgnoreCase("creation-tier")) return;
@@ -55,15 +54,15 @@ public class DialogueListener implements Listener {
 //        currentSession.setTier(tier);
 //
 //        player.sendMessage(StringUtils.colorString("&bThe tier has been set to "));
-
-    }
+//
+//    }
 
     @EventHandler
-    public void onReceiveInputOther(ReceiveInputEvent e){
+    public void onReceiveInput(ReceiveInputEvent e){
         Prompt prompt = e.getPrompt();
         String input = e.getInput();
         Consumer<String> onReceiveInputAction = prompt.getOnReceiveInputAction();
-        if(onReceiveInputAction != null ){
+        if(onReceiveInputAction != null){
             onReceiveInputAction.accept(input);
         }
     }
@@ -74,7 +73,7 @@ public class DialogueListener implements Listener {
         PromptInputType inputType = prompt.getType();
 
         if(input.equalsIgnoreCase(dialogue.getEscapeSequence())){
-            DialogueAPI.endDialogue(player, DialogueEndCause.ESCAPE_SEQUENCE);
+            dialogueManager.endDialogue(player, DialogueEndCause.ESCAPE_SEQUENCE);
             return;
         }
 
@@ -94,7 +93,7 @@ public class DialogueListener implements Listener {
         if(dialogue.hasMorePrompts()){
             dialogue.nextPrompt(player);
         }else{
-            DialogueAPI.endDialogue(player, DialogueEndCause.NO_MORE_PROMPTS);
+            dialogueManager.endDialogue(player, DialogueEndCause.NO_MORE_PROMPTS);
         }
 
     }
