@@ -2,7 +2,7 @@
 # Dialogue
 ![Release](https://jitpack.io/v/nthByte-LLC/dialogue.svg)
 
-Dialogue is a Spigot API that completely revamps the Conversations API
+Dialogue is a Spigot API that completely revamps the Conversation API
 
 ## Installation
 
@@ -22,7 +22,7 @@ Dialogue is a Spigot API that completely revamps the Conversations API
 ```
 Replace "Tag" with a release tag for Dialogue. You can see the latest version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>
 
-###Gradle
+### Gradle
 ```gradle
 repositories {
     maven { url 'https://jitpack.io' }
@@ -44,6 +44,8 @@ All this does is register the dialogue listener and initializes DialogueManager
 
 From this point on, you can either look at this <a href="https://github.com/nthByte-LLC/dialogue-example">example plugin</a> that uses this API or refer to the <a href="https://github.com/nthByte-LLC/dialogue/wiki">wiki</a>
 
+## Support
+Need help or have questions? Join my <a href="https://discord.gg/ZP2xxC52An">discord</a>
 
 
 
