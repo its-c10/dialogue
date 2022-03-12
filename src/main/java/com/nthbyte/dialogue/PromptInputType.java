@@ -57,6 +57,11 @@ public enum PromptInputType {
     BASE_64,
 
     /**
+     * An online player.
+     */
+    PLAYER,
+
+    /**
      * You either do not care about the type of input they pass through, or you want to do your own format check.
      * @see Prompt Variable onValidateInputAction can be used to do your own validation/format checks.
      */

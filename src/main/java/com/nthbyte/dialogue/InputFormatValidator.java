@@ -1,6 +1,8 @@
 package com.nthbyte.dialogue;
 
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -29,6 +31,7 @@ public class InputFormatValidator {
             case UPPERCASE_LETTERS: return StringUtils.isAllUpperCase(input);
             case COLORFUL_STRING: return isColoredString(input);
             case BASE_64: return input.length() == 180;
+            case PLAYER: return isPlayer(input);
             default: return true;
         }
     }
@@ -65,6 +68,15 @@ public class InputFormatValidator {
     private static boolean isColoredString(String input){
         String colored = Utils.tr(input);
         return !colored.equals(input);
+    }
+
+    private static boolean isPlayer(String input){
+        for(Player player : Bukkit.getOnlinePlayers()){
+            if(player.getName().equalsIgnoreCase(input)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
