@@ -22,7 +22,7 @@ Dialogue is a Spigot API that completely revamps the Conversations API
 ```
 Replace "Tag" with a release tag for Dialogue. You can see the latest version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>
 
-###Gradle
+### Gradle
 ```gradle
 repositories {
     maven { url 'https://jitpack.io' }
