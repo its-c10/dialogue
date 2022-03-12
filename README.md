@@ -2,7 +2,7 @@
 # Dialogue
 ![Release](https://jitpack.io/v/nthByte-LLC/dialogue.svg)
 
-Dialogue is a Spigot API that completely revamps the Conversations API
+Dialogue is a Spigot API that completely revamps the Conversation API
 
 ## Installation
 
