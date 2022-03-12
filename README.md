@@ -20,7 +20,20 @@ Dialogue is a Spigot API that completely revamps the Conversations API
     <version>Tag</version>
 </dependency>
 ```
-Replace "Tag" with the latest JitPack build
+Replace "Tag" with a release tag for Dialogue. You can see the latest version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>
+
+###Gradle
+```gradle
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+```
+```gradle
+dependencies {
+    implementation 'com.github.nthByte-LLC:dialogue:Tag'
+}
+```
+Replace "Tag" with a release tag for Dialogue. You can see the latest version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>
 
 ## Usage
 Firstly, you want to hook into the API. Put this line in your main class.
