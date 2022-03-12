@@ -44,6 +44,8 @@ All this does is register the dialogue listener and initializes DialogueManager
 
 From this point on, you can either look at this <a href="https://github.com/nthByte-LLC/dialogue-example">example plugin</a> that uses this API or refer to the <a href="https://github.com/nthByte-LLC/dialogue/wiki">wiki</a>
 
+## Support
+Need help or have questions? Join my <a href="https://discord.gg/ZP2xxC52An">discord</a>
 
 
 
