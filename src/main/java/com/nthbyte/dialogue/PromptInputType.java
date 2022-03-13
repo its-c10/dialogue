@@ -2,8 +2,9 @@ package com.nthbyte.dialogue;
 
 /**
  * The different types of input for prompts.
+ *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.0.0.0
+ * @version 1.1.0.0
  */
 public enum PromptInputType {
 
@@ -27,17 +28,17 @@ public enum PromptInputType {
     LETTERS,
 
     /**
-     * Only allows letters and numbers in the input.
+     * Only allows letters and numbers in the input, i.e. "H3ll0 W0r1d"
      */
     LETTERS_AND_NUMBERS,
 
     /**
-     * Only lowercase letters in the input.
+     * Only lowercase letters in the input, i.e. "hello world"
      */
     LOWERCASE_LETTERS,
 
     /**
-     * Only uppercase letters in the input.
+     * Only uppercase letters in the input, i.e. "HELLO WORLD"
      */
     UPPERCASE_LETTERS,
 
@@ -62,8 +63,7 @@ public enum PromptInputType {
     PLAYER,
 
     /**
-     * You either do not care about the type of input they pass through, or you want to do your own format check.
-     * @see Prompt Variable onValidateInputAction can be used to do your own validation/format checks.
+     * You either do not care about the type of input they pass through, or you want to do your own format and/or validation checks.
      */
     NONE,
 

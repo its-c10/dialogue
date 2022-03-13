@@ -2,13 +2,14 @@ package com.nthbyte.dialogue;
 
 import org.bukkit.entity.Player;
 
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
  * Represents a question or a request.
+ *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.0.0.0
+ * @version 1.1.0.0
  */
 public class Prompt {
 
@@ -30,7 +31,7 @@ public class Prompt {
     /**
      * The action that runs whenever you receive input SUCCESSFULLY, meaning it's valid input. Runs after the input format gets validated.
      */
-    private Consumer<String> onReceiveInputAction;
+    private BiConsumer<Player, String> onReceiveInputAction;
 
     /**
      * The action that runs whenever you are validating input.
@@ -53,7 +54,7 @@ public class Prompt {
         return type;
     }
 
-    public Consumer<String> getOnReceiveInputAction() {
+    public BiConsumer<Player, String> getOnReceiveInputAction() {
         return onReceiveInputAction;
     }
 
@@ -67,11 +68,13 @@ public class Prompt {
 
     public static class Builder{
 
-        private String id;
-        private String text;
+        private String id = "";
+        private String text = "No prompt text given.";
         private PromptInputType type = PromptInputType.NONE;
-        private Consumer<String> onReceiveInputAction;
-        private Function<String, Boolean> onValidateInputAction;
+        private BiConsumer<Player, String> onReceiveInputAction = (player, s) -> { };
+
+        // Prompt validator returns true by default.
+        private Function<String, Boolean> onValidateInputAction = s -> true;
 
         public Builder(){}
 
@@ -90,7 +93,7 @@ public class Prompt {
             return this;
         }
 
-        public Builder setOnReceiveInputAction(Consumer<String> action){
+        public Builder setOnReceiveInputAction(BiConsumer<Player, String> action){
             this.onReceiveInputAction = action;
             return this;
         }

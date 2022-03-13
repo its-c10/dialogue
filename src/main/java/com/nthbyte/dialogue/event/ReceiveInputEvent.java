@@ -6,13 +6,15 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- * Event fired when you receive input from a player (after validation)
+ * Event fired when you receive input from a player post-validation.
+ *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.0.0.0
+ * @version 1.1.0.0
  */
 public class ReceiveInputEvent extends Event {
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
+
     private Player player;
     private String input;
     private Prompt prompt;
@@ -24,6 +26,7 @@ public class ReceiveInputEvent extends Event {
         this.prompt = prompt;
     }
 
+    /** {@inheritDoc} */
     @Override
     public HandlerList getHandlers() {
         return HANDLERS_LIST;

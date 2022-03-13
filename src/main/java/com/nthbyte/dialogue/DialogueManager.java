@@ -4,13 +4,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 /**
  * The manager for all dialogue.
+ *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.0.0.0
+ * @version 1.1.0.0
  */
 public class DialogueManager {
 

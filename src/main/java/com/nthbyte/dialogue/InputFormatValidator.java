@@ -8,13 +8,15 @@ import java.util.UUID;
 
 /**
  * Validates the format of input.
+ *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.0.0.0
+ * @version 1.1.0.0
  */
 public class InputFormatValidator {
 
     /**
      * Validates the input format. If the prompt type isn't supported, then the input automatically is passed as "valid."
+     *
      * @param inputType The type of input this prompt accepts.
      * @param input The input from the player.
      * @return Whether the input is in the valid format. Returns true if the prompt input type isn't supported or checked for in the switch statement.

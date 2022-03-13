@@ -8,8 +8,9 @@ import java.util.function.Consumer;
 
 /**
  * Object that represents dialogue between the plugin and a player.
+ *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.0.0.0
+ * @version 1.1.0.0
  */
 public class Dialogue {
 
@@ -37,6 +38,7 @@ public class Dialogue {
 
     /**
      * Gets the current prompt this dialogue is on.
+     *
      * @return The current prompt.
      */
     public Prompt getCurrentPrompt(){
@@ -45,6 +47,7 @@ public class Dialogue {
 
     /**
      * Whether the dialogue has more prompts.
+     *
      * @return If the dialogue has more prompts.
      */
     public boolean hasMorePrompts(){
@@ -62,6 +65,7 @@ public class Dialogue {
 
     /**
      * Prompts the next prompt to the player.
+     *
      * @param player The player we are prompting.
      */
     public void nextPrompt(Player player){
@@ -83,9 +87,9 @@ public class Dialogue {
 
     public static class Builder{
 
-        private String escapeSequence;
+        private String escapeSequence = "";
         private List<Prompt> prompts = new ArrayList<>();
-        private Consumer<DialogueEndCause> endAction;
+        private Consumer<DialogueEndCause> endAction = dialogueEndCause -> { };
 
         public Builder(){}
 

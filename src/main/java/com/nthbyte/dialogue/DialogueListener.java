@@ -1,6 +1,7 @@
 package com.nthbyte.dialogue;
 
 import com.nthbyte.dialogue.event.ReceiveInputEvent;
+import com.nthbyte.dialogue.event.ValidateInputEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,13 +10,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
  * The listener for all input and dialogue.
+ *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.0.0.0
+ * @version 1.1.0.0
  */
 public class DialogueListener implements Listener {
 
@@ -67,9 +69,9 @@ public class DialogueListener implements Listener {
     public void onReceiveInput(ReceiveInputEvent e){
         Prompt prompt = e.getPrompt();
         String input = e.getInput();
-        Consumer<String> onReceiveInputAction = prompt.getOnReceiveInputAction();
+        BiConsumer<Player, String> onReceiveInputAction = prompt.getOnReceiveInputAction();
         if(onReceiveInputAction != null){
-            onReceiveInputAction.accept(input);
+            onReceiveInputAction.accept(e.getPlayer(), input);
         }
     }
 
@@ -89,8 +91,11 @@ public class DialogueListener implements Listener {
             return;
         }
 
+        ValidateInputEvent validationEvent = new ValidateInputEvent(player, prompt.getId(), input);
+        Bukkit.getPluginManager().callEvent(validationEvent);
+
         Function<String, Boolean> validationAction = prompt.getOnValidateInputAction();
-        if(validationAction != null && !validationAction.apply(input)){
+        if(!validationEvent.isValidInput() || (validationAction != null && !validationAction.apply(input))){
             return;
         }
 
