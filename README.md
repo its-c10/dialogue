@@ -18,7 +18,7 @@ Dialogue is a Spigot API that completely revamps the Conversation API. <b><i>Thi
 ```xml
 <repository>
     <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
+    <url>https://www.jitpack.io</url>
 </repository>
 ```
 ```xml
