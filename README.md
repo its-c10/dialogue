@@ -1,3 +1,11 @@
+<p align="center">
+  <img 
+    width="400"
+    height="400"
+    src="https://user-images.githubusercontent.com/39465461/158046869-2d4b465c-99f0-4c88-ac26-63284f153adc.png"
+  >
+</p>
+
 <!-- https://www.makeareadme.com/ -->
 # Dialogue
 ![Release](https://jitpack.io/v/nthByte-LLC/dialogue.svg)
@@ -43,6 +51,11 @@ DialogueAPI.hook(this);
 All this does is register the dialogue listener and initializes DialogueManager
 
 From this point on, you can either look at this <a href="https://github.com/nthByte-LLC/dialogue-example">example plugin</a> that uses this API or refer to the <a href="https://github.com/nthByte-LLC/dialogue/wiki">wiki</a>
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
 
 ## Support
 Need help or have questions? Join my <a href="https://discord.gg/ZP2xxC52An">discord</a>
