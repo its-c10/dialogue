@@ -85,9 +85,12 @@ public class DialogueListener implements Listener {
             return;
         }
 
+        boolean shouldRepeatPrompt = dialogue.shouldRepeatPrompt();
         if(!InputFormatValidator.isValidFormat(inputType, input)){
             player.sendMessage(Utils.tr("&cThe input is not in the valid format! The input type should be " + inputType));
-            prompt.prompt(player);
+            if(shouldRepeatPrompt){
+                prompt.prompt(player);
+            }
             return;
         }
 
@@ -96,6 +99,9 @@ public class DialogueListener implements Listener {
 
         Function<String, Boolean> validationAction = prompt.getOnValidateInputAction();
         if(!validationEvent.isValidInput() || (validationAction != null && !validationAction.apply(input))){
+            if(shouldRepeatPrompt){
+                prompt.prompt(player);
+            }
             return;
         }
 

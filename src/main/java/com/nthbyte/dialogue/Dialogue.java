@@ -18,15 +18,16 @@ public class Dialogue {
      * The sequence that you have to type in order to quit the dialogue.
      */
     private String escapeSequence;
-
     private List<Prompt> prompts;
-
     /**
      * Actions that are ran when the dialogue ends.
      */
     private Consumer<DialogueEndCause> endAction;
-
     private int currentIndexPrompt = 0;
+    /**
+     * Repeats the prompt if the input was invalid.
+     */
+    private boolean repeatPrompt;
 
     private Dialogue(){}
 
@@ -34,6 +35,7 @@ public class Dialogue {
         this.prompts = builder.prompts;
         this.endAction = builder.endAction;
         this.escapeSequence = builder.escapeSequence;
+        this.repeatPrompt = builder.repeatPrompt;
     }
 
     /**
@@ -85,8 +87,13 @@ public class Dialogue {
         return currentIndexPrompt;
     }
 
+    public boolean shouldRepeatPrompt() {
+        return repeatPrompt;
+    }
+
     public static class Builder{
 
+        private boolean repeatPrompt = true;
         private String escapeSequence = "";
         private List<Prompt> prompts = new ArrayList<>();
         private Consumer<DialogueEndCause> endAction = dialogueEndCause -> { };
@@ -105,6 +112,11 @@ public class Dialogue {
 
         public Builder setEndAction(Consumer<DialogueEndCause> action){
             this.endAction = action;
+            return this;
+        }
+
+        public Builder setRepeatPrompt(boolean repeatPrompt){
+            this.repeatPrompt = repeatPrompt;
             return this;
         }
 

@@ -71,7 +71,7 @@ public class Prompt {
         private String id = "";
         private String text = "No prompt text given.";
         private PromptInputType type = PromptInputType.NONE;
-        private BiConsumer<Player, String> onReceiveInputAction = (player, s) -> { };
+        private BiConsumer<Player, String> onReceiveInputAction = (player, input) -> {};
 
         // Prompt validator returns true by default.
         private Function<String, Boolean> onValidateInputAction = s -> true;
