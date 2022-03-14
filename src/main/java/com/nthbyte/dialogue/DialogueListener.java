@@ -1,5 +1,8 @@
 package com.nthbyte.dialogue;
 
+import com.nthbyte.dialogue.action.PromptAction;
+import com.nthbyte.dialogue.action.context.LocationContext;
+import com.nthbyte.dialogue.action.context.ResponderContext;
 import com.nthbyte.dialogue.event.ReceiveInputEvent;
 import com.nthbyte.dialogue.event.ValidateInputEvent;
 import org.bukkit.Bukkit;
@@ -69,9 +72,9 @@ public class DialogueListener implements Listener {
     public void onReceiveInput(ReceiveInputEvent e){
         Prompt prompt = e.getPrompt();
         String input = e.getInput();
-        BiConsumer<Player, String> onReceiveInputAction = prompt.getOnReceiveInputAction();
+        PromptAction<ResponderContext, String> onReceiveInputAction = prompt.getOnReceiveInputAction();
         if(onReceiveInputAction != null){
-            onReceiveInputAction.accept(e.getPlayer(), input);
+            onReceiveInputAction.accept(new ResponderContext(e.getPlayer()), input);
         }
     }
 

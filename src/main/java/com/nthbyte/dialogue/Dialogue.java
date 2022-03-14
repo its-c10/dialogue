@@ -1,10 +1,13 @@
 package com.nthbyte.dialogue;
 
+import com.nthbyte.dialogue.action.Action;
+import com.nthbyte.dialogue.action.PromptAction;
+import com.nthbyte.dialogue.action.context.ResponderContext;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 /**
  * Object that represents dialogue between the plugin and a player.
@@ -22,7 +25,7 @@ public class Dialogue {
     /**
      * Actions that are ran when the dialogue ends.
      */
-    private Consumer<DialogueEndCause> endAction;
+    private PromptAction<ResponderContext, DialogueEndCause> endAction;
     private int currentIndexPrompt = 0;
     /**
      * Repeats the prompt if the input was invalid.
@@ -75,7 +78,7 @@ public class Dialogue {
         getCurrentPrompt().prompt(player);
     }
 
-    public Consumer<DialogueEndCause> getEndAction() {
+    public PromptAction<ResponderContext, DialogueEndCause> getEndAction() {
         return endAction;
     }
 
@@ -96,7 +99,7 @@ public class Dialogue {
         private boolean repeatPrompt = true;
         private String escapeSequence = "";
         private List<Prompt> prompts = new ArrayList<>();
-        private Consumer<DialogueEndCause> endAction = dialogueEndCause -> { };
+        private PromptAction<ResponderContext, DialogueEndCause> endAction = (context, dialogueEndCause) -> {};
 
         public Builder(){}
 
@@ -110,13 +113,13 @@ public class Dialogue {
             return this;
         }
 
-        public Builder setEndAction(Consumer<DialogueEndCause> action){
-            this.endAction = action;
+        public Builder setRepeatPrompt(boolean repeatPrompt){
+            this.repeatPrompt = repeatPrompt;
             return this;
         }
 
-        public Builder setRepeatPrompt(boolean repeatPrompt){
-            this.repeatPrompt = repeatPrompt;
+        public Builder setEndAction(PromptAction<ResponderContext, DialogueEndCause> action){
+            this.endAction = action;
             return this;
         }
 

@@ -1,5 +1,7 @@
 package com.nthbyte.dialogue;
 
+import com.nthbyte.dialogue.action.PromptAction;
+import com.nthbyte.dialogue.action.context.ResponderContext;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -56,9 +58,9 @@ public class DialogueManager {
         Dialogue endedDialogue = playersInDialogue.remove(player.getUniqueId());
         if(endedDialogue == null) return;
 
-        Consumer<DialogueEndCause> endAction = endedDialogue.getEndAction();
+        PromptAction<ResponderContext, DialogueEndCause> endAction = endedDialogue.getEndAction();
         if(endAction != null){
-            endAction.accept(cause);
+            endAction.accept(new ResponderContext(player), cause);
         }
 
     }

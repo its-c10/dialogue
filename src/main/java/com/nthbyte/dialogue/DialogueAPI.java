@@ -1,5 +1,8 @@
 package com.nthbyte.dialogue;
 
+import com.nthbyte.dialogue.action.Action;
+import com.nthbyte.dialogue.action.PromptAction;
+import com.nthbyte.dialogue.action.context.ResponderContext;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -51,6 +54,9 @@ public class DialogueAPI {
      */
     public static void endDialogue(Player player, DialogueEndCause cause){
         dialogueManager.endDialogue(player, cause);
+//        new Dialogue.Builder()
+//            .setEndAction(Action.TELEPORT)
     }
+
 
 }
