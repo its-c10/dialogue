@@ -7,13 +7,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
  * The manager for all dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.0
+ * @version 1.1.1.1
  */
 public class DialogueManager {
 
@@ -56,9 +57,9 @@ public class DialogueManager {
         Dialogue endedDialogue = playersInDialogue.remove(player.getUniqueId());
         if(endedDialogue == null) return;
 
-        Consumer<DialogueEndCause> endAction = endedDialogue.getEndAction();
+        BiConsumer<Player, DialogueEndCause> endAction = endedDialogue.getEndAction();
         if(endAction != null){
-            endAction.accept(cause);
+            endAction.accept(player, cause);
         }
 
     }

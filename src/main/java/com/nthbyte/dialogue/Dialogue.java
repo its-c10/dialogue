@@ -4,13 +4,14 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
  * Object that represents dialogue between the plugin and a player.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.0
+ * @version 1.1.1.1
  */
 public class Dialogue {
 
@@ -22,7 +23,7 @@ public class Dialogue {
     /**
      * Actions that are ran when the dialogue ends.
      */
-    private Consumer<DialogueEndCause> endAction;
+    private BiConsumer<Player, DialogueEndCause> endAction;
     private int currentIndexPrompt = 0;
     /**
      * Repeats the prompt if the input was invalid.
@@ -75,7 +76,7 @@ public class Dialogue {
         getCurrentPrompt().prompt(player);
     }
 
-    public Consumer<DialogueEndCause> getEndAction() {
+    public BiConsumer<Player, DialogueEndCause> getEndAction() {
         return endAction;
     }
 
@@ -96,7 +97,7 @@ public class Dialogue {
         private boolean repeatPrompt = true;
         private String escapeSequence = "";
         private List<Prompt> prompts = new ArrayList<>();
-        private Consumer<DialogueEndCause> endAction = dialogueEndCause -> { };
+        private BiConsumer<Player, DialogueEndCause> endAction = (player, dialogueEndCause) -> {};
 
         public Builder(){}
 
@@ -110,7 +111,7 @@ public class Dialogue {
             return this;
         }
 
-        public Builder setEndAction(Consumer<DialogueEndCause> action){
+        public Builder setEndAction(BiConsumer<Player, DialogueEndCause> action){
             this.endAction = action;
             return this;
         }

@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * An API that completely eliminates your need for the ConversationsAPI
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.0
+ * @version 1.1.1.1
  */
 public class DialogueAPI {
 
