@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
 import java.util.UUID;
@@ -21,9 +22,11 @@ import java.util.function.Function;
  */
 public class DialogueListener implements Listener {
 
+    private JavaPlugin plugin;
     private DialogueManager dialogueManager;
 
-    public DialogueListener(DialogueManager dialogueManager){
+    public DialogueListener(JavaPlugin plugin, DialogueManager dialogueManager){
+        this.plugin = plugin;
         this.dialogueManager = dialogueManager;
     }
 
@@ -40,7 +43,7 @@ public class DialogueListener implements Listener {
         if(DialogueAPI.isHavingDialogue(player)){
             e.setCancelled(true);
             Dialogue dialogue = dialogueManager.getCurrentDialogue(player);
-            fireReceiveInputEvent(player, dialogue, e.getMessage());
+            Bukkit.getScheduler().runTask(plugin, () -> fireReceiveInputEvent(player, dialogue, e.getMessage()));
         }
 
     }
