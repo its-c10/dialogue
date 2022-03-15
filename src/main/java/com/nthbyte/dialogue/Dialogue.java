@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  * Object that represents dialogue between the plugin and a player.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.1
+ * @version 1.2.0.1
  */
 public class Dialogue {
 

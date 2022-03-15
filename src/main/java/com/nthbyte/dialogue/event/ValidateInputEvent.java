@@ -8,7 +8,7 @@ import org.bukkit.event.HandlerList;
  * The event that fires just before the prompt uses its own validation check (If there is any). Use this if you wish to do your own validation.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.1
+ * @version 1.2.0.1
  */
 public class ValidateInputEvent extends Event {
 
@@ -20,6 +20,7 @@ public class ValidateInputEvent extends Event {
     private String promptId, input;
 
     public ValidateInputEvent(Player responder, String promptId, String input){
+        super(true);
         this.responder = responder;
         this.promptId = promptId;
         this.input = input;

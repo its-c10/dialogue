@@ -9,7 +9,7 @@ import java.util.function.Function;
  * Represents a question or a request.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.1
+ * @version 1.2.0.1
  */
 public class Prompt {
 

@@ -12,7 +12,7 @@
         Third number I will change whenever I add a new feature.
         Fourth number I will change for bug fixes/small changes.
     -->
-    <version>1.2.0.0</version>
+    <version>1.2.0.1</version>
     <packaging>jar</packaging>
 
     <name>Dialogue</name>

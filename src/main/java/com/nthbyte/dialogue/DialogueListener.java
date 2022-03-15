@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
 import java.util.UUID;
@@ -17,7 +18,7 @@ import java.util.function.Function;
  * The listener for all input and dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.1
+ * @version 1.2.0.1
  */
 public class DialogueListener implements Listener {
 
