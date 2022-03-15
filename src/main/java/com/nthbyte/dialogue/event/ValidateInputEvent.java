@@ -20,6 +20,7 @@ public class ValidateInputEvent extends Event {
     private String promptId, input;
 
     public ValidateInputEvent(Player responder, String promptId, String input){
+        super(true);
         this.responder = responder;
         this.promptId = promptId;
         this.input = input;
