@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
  * Utility class.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.1
+ * @version 1.2.0.1
  */
 public class Utils {
 
