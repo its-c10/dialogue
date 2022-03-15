@@ -22,11 +22,9 @@ import java.util.function.Function;
  */
 public class DialogueListener implements Listener {
 
-    private JavaPlugin plugin;
     private DialogueManager dialogueManager;
 
-    public DialogueListener(JavaPlugin plugin, DialogueManager dialogueManager){
-        this.plugin = plugin;
+    public DialogueListener(DialogueManager dialogueManager){
         this.dialogueManager = dialogueManager;
     }
 
@@ -43,7 +41,7 @@ public class DialogueListener implements Listener {
         if(DialogueAPI.isHavingDialogue(player)){
             e.setCancelled(true);
             Dialogue dialogue = dialogueManager.getCurrentDialogue(player);
-            Bukkit.getScheduler().runTask(plugin, () -> fireReceiveInputEvent(player, dialogue, e.getMessage()));
+            fireReceiveInputEvent(player, dialogue, e.getMessage());
         }
 
     }
