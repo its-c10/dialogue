@@ -20,7 +20,7 @@ public class DialogueAPI {
      */
     public static void hook(JavaPlugin hookingPlugin){
         dialogueManager = new DialogueManager(hookingPlugin);
-        hookingPlugin.getServer().getPluginManager().registerEvents(new DialogueListener(hookingPlugin, dialogueManager), hookingPlugin);
+        hookingPlugin.getServer().getPluginManager().registerEvents(new DialogueListener(dialogueManager), hookingPlugin);
     }
 
     /**
