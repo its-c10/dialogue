@@ -130,8 +130,8 @@ public class Dialogue {
          * @see Action
          * @return The builder.
          */
-        public Builder<U, T> setEndAction(T action, U context){
-            this.endAction = action;
+        public Builder<U, T> setEndAction(Action.DefaultEndAction<U> action, U context){
+            this.endAction = (T) action;
             this.context = context;
             return this;
         }

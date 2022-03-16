@@ -26,11 +26,15 @@ public final class Action {
      */
     public interface EndAction<T extends ActionContext> extends BasePromptAction<T, DialogueEndCause> {}
 
+    /**
+     * Action that runs at the end of dialogue.
+     */
+    public interface DefaultEndAction<T extends ActionContext> extends EndAction<T> {}
 
     /**
      * No action.
      */
-    public static final EndAction<ActionContext> NO_END_ACTION = (context, input) -> {};
+    public static final DefaultEndAction<ActionContext> NO_END_ACTION = (context, input) -> {};
 
 
 
