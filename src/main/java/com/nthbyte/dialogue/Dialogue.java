@@ -1,19 +1,17 @@
 package com.nthbyte.dialogue;
 
 import com.nthbyte.dialogue.action.Action;
-import com.nthbyte.dialogue.action.PromptAction;
-import com.nthbyte.dialogue.action.context.ResponderContext;
+import com.nthbyte.dialogue.action.context.ActionContext;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 /**
  * Object that represents dialogue between the plugin and a player.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.0
+ * @version 1.3.0.0
  */
 public class Dialogue {
 
@@ -25,7 +23,8 @@ public class Dialogue {
     /**
      * Actions that are ran when the dialogue ends.
      */
-    private PromptAction<ResponderContext, DialogueEndCause> endAction;
+    private Action.BasePromptAction endAction;
+    private ActionContext context;
     private int currentIndexPrompt = 0;
     /**
      * Repeats the prompt if the input was invalid.
@@ -36,6 +35,7 @@ public class Dialogue {
 
     private Dialogue(Dialogue.Builder builder){
         this.prompts = builder.prompts;
+        this.context = builder.context;
         this.endAction = builder.endAction;
         this.escapeSequence = builder.escapeSequence;
         this.repeatPrompt = builder.repeatPrompt;
@@ -78,7 +78,7 @@ public class Dialogue {
         getCurrentPrompt().prompt(player);
     }
 
-    public PromptAction<ResponderContext, DialogueEndCause> getEndAction() {
+    public Action.BasePromptAction getEndAction() {
         return endAction;
     }
 
@@ -94,31 +94,54 @@ public class Dialogue {
         return repeatPrompt;
     }
 
-    public static class Builder{
+    public ActionContext getContext() {
+        return context;
+    }
+
+    public static class Builder<U extends ActionContext, T extends Action.EndAction<U>>{
 
         private boolean repeatPrompt = true;
         private String escapeSequence = "";
         private List<Prompt> prompts = new ArrayList<>();
-        private PromptAction<ResponderContext, DialogueEndCause> endAction = (context, dialogueEndCause) -> {};
+        private T endAction = (T) Action.NO_END_ACTION;
+        private U context;
 
         public Builder(){}
 
-        public Builder addPrompt(Prompt.Builder prompt){
+        public Builder<U, T> addPrompt(Prompt.Builder prompt){
             this.prompts.add(prompt.build());
             return this;
         }
 
-        public Builder setEscapeSequence(String escapeSequence){
+        public Builder<U, T> setEscapeSequence(String escapeSequence){
             this.escapeSequence = escapeSequence;
             return this;
         }
 
-        public Builder setRepeatPrompt(boolean repeatPrompt){
+        public Builder<U, T> setRepeatPrompt(boolean repeatPrompt){
             this.repeatPrompt = repeatPrompt;
             return this;
         }
 
-        public Builder setEndAction(PromptAction<ResponderContext, DialogueEndCause> action){
+        /**
+         * Using a default action.
+         * @param action A default action.
+         * @param context The context for the action.
+         * @see Action
+         * @return The builder.
+         */
+        public Builder<U, T> setEndAction(T action, U context){
+            this.endAction = action;
+            this.context = context;
+            return this;
+        }
+
+        /**
+         * Defines your own end action.
+         * @param action Your action.
+         * @return The builder.
+         */
+        public Builder<U, T> setEndAction(T action){
             this.endAction = action;
             return this;
         }

@@ -10,7 +10,7 @@ import java.util.UUID;
  * Validates the format of input.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.0
+ * @version 1.3.0.0
  */
 public class InputFormatValidator {
 

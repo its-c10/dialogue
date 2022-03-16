@@ -1,8 +1,7 @@
 package com.nthbyte.dialogue;
 
-import com.nthbyte.dialogue.action.PromptAction;
-import com.nthbyte.dialogue.action.context.LocationContext;
-import com.nthbyte.dialogue.action.context.ResponderContext;
+import com.nthbyte.dialogue.action.Action;
+import com.nthbyte.dialogue.action.context.ActionContext;
 import com.nthbyte.dialogue.event.ReceiveInputEvent;
 import com.nthbyte.dialogue.event.ValidateInputEvent;
 import org.bukkit.Bukkit;
@@ -13,14 +12,13 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
  * The listener for all input and dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.0
+ * @version 1.3.0.0
  */
 public class DialogueListener implements Listener {
 
@@ -72,9 +70,9 @@ public class DialogueListener implements Listener {
     public void onReceiveInput(ReceiveInputEvent e){
         Prompt prompt = e.getPrompt();
         String input = e.getInput();
-        PromptAction<ResponderContext, String> onReceiveInputAction = prompt.getOnReceiveInputAction();
+        Action.BasePromptAction<ActionContext, String> onReceiveInputAction = prompt.getOnReceiveInputAction();
         if(onReceiveInputAction != null){
-            onReceiveInputAction.accept(new ResponderContext(e.getPlayer()), input);
+            onReceiveInputAction.accept(new ActionContext(e.getPlayer()), input);
         }
     }
 

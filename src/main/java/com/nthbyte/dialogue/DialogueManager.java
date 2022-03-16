@@ -1,7 +1,7 @@
 package com.nthbyte.dialogue;
 
-import com.nthbyte.dialogue.action.PromptAction;
-import com.nthbyte.dialogue.action.context.ResponderContext;
+import com.nthbyte.dialogue.action.Action;
+import com.nthbyte.dialogue.action.context.ActionContext;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,13 +9,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 /**
  * The manager for all dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.1.1.0
+ * @version 1.3.0.0
  */
 public class DialogueManager {
 
@@ -58,9 +57,15 @@ public class DialogueManager {
         Dialogue endedDialogue = playersInDialogue.remove(player.getUniqueId());
         if(endedDialogue == null) return;
 
-        PromptAction<ResponderContext, DialogueEndCause> endAction = endedDialogue.getEndAction();
+        Action.BasePromptAction endAction = endedDialogue.getEndAction();
+        ActionContext context = endedDialogue.getContext();
+        // Will be null if they are defining their own action (and not using a default one).
+        if(context == null){
+            context = new ActionContext(player);
+        }
+
         if(endAction != null){
-            endAction.accept(new ResponderContext(player), cause);
+            endAction.accept(context, cause);
         }
 
     }
