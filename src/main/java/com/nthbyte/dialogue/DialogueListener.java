@@ -1,6 +1,5 @@
 package com.nthbyte.dialogue;
 
-import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import com.nthbyte.dialogue.event.ReceiveInputEvent;
 import com.nthbyte.dialogue.event.ValidateInputEvent;

@@ -1,4 +1,4 @@
-package com.nthbyte.dialogue.action;
+package com.nthbyte.dialogue;
 
 import com.nthbyte.dialogue.DialogueEndCause;
 import com.nthbyte.dialogue.action.context.LocationContext;
@@ -18,7 +18,6 @@ public final class Action {
      */
     public interface BasePromptAction<T extends ActionContext, U> extends BiConsumer<T, U> {}
 
-
     public interface ReceiveInputAction<T extends ActionContext> extends BasePromptAction<T, String> {}
 
     /**
@@ -29,12 +28,12 @@ public final class Action {
     /**
      * Action that runs at the end of dialogue.
      */
-    public interface DefaultEndAction<T extends ActionContext> extends EndAction<T> {}
+    protected interface DefaultEndAction<T extends ActionContext> extends EndAction<T> {}
 
     /**
      * No action.
      */
-    public static final DefaultEndAction<ActionContext> NO_END_ACTION = (context, input) -> {};
+    public static final EndAction<ActionContext> NO_END_ACTION = (context, input) -> {};
 
 
 
@@ -43,7 +42,7 @@ public final class Action {
     /**
      * Teleports the player to a specific location.
      */
-    public static final EndAction<LocationContext> TELEPORT = (context, endCause) -> {
+    public static final DefaultEndAction<LocationContext> TELEPORT = (context, endCause) -> {
         context.getResponder().teleport(context.getLocation());
     };
 
