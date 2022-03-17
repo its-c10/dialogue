@@ -75,7 +75,6 @@ public class DialogueListener implements Listener {
         if(onReceiveInputAction != null){
 
             Map<String, String> inputStorage = inputStoragePerPlayer.get(player);
-            System.out.println("Input inputs on get" + inputStorage);
             if(inputStorage == null) {
                 inputStorage = new HashMap<>();
             }
@@ -90,11 +89,9 @@ public class DialogueListener implements Listener {
 //                context.initData();
 //            }
 
-            System.out.println("Input: " + input);
             onReceiveInputAction.accept(context, input);
             // Input storage could have been added to if they are using Action.DefaultAction#STORE_INPUT
             inputStorage = context.getInputStorage();
-            System.out.println("Post input storage: " + inputStorage);
 
             if(!inputStorage.isEmpty()){
                 inputStoragePerPlayer.put(player, inputStorage);

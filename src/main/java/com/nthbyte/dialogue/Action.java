@@ -29,6 +29,8 @@ public final class Action {
      */
     protected interface DefaultAction<T extends ActionContext> extends BasePromptAction<T, String> {}
 
+    private Action(){}
+
     // DEFAULT ACTIONS
 
     /**

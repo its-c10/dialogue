@@ -21,7 +21,6 @@ public class LocationContext extends ActionContext<Location> {
     @Override
     public void initData() {
 
-        System.out.println("Initializing Data");
         int inputStorageCount = inputStorage.size();
         /*
             2 valid situations:

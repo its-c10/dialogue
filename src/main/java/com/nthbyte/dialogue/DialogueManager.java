@@ -56,19 +56,15 @@ public class DialogueManager {
 
         ActionContext context = endedDialogue.getEndActionContext();
         Map<String, String> inputStorage = (context == null || !context.hasStoredInputs()) ? new HashMap<>() : context.getInputStorage();
-        System.out.println("Input Storage in endDialogue on get: " + inputStorage);
         Action.BasePromptAction endAction = endedDialogue.getEndAction();
         // They are defining their own action.
         if(endAction instanceof Action.EndAction || context == null){
             // Will be null if they are defining their own action (and not using a default one).
             context = new ActionContext(player);
         }
-        System.out.println("Input storage: " + inputStorage);
         context.setInputStorage(inputStorage);
 
-        System.out.println("we are here");
         if(!inputStorage.isEmpty() && context.getData() == null){
-            System.out.println("In this block");
             context.initData();
         }
 
