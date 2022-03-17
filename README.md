@@ -10,7 +10,7 @@
 # Dialogue
 ![Release](https://jitpack.io/v/nthByte-LLC/dialogue.svg)
 
-Dialogue is a Spigot API that completely revamps the Conversation API. <b><i>This is not a plugin you put on your server.</b></i>
+Dialogue is a Spigot API that completely revamps the Conversation API. <b><i>This is not a plugin you put on your server</b></i>.
 
 ## Installation
 
@@ -28,7 +28,7 @@ Dialogue is a Spigot API that completely revamps the Conversation API. <b><i>Thi
     <version>Tag</version>
 </dependency>
 ```
-Replace "Tag" with a release tag for Dialogue. You can see the latest version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>
+Replace "Tag" with a release tag for Dialogue. You can see the latest version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>.
 
 ### Gradle
 ```gradle
@@ -41,24 +41,22 @@ dependencies {
     implementation 'com.github.nthByte-LLC:dialogue:Tag'
 }
 ```
-Replace "Tag" with a release tag for Dialogue. You can see the latest version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>
+Replace "Tag" with a release tag for Dialogue. You can see the latest version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>.
 
 ## Usage
 Firstly, you want to hook into the API. Put this line in your main class.
 ```java
 DialogueAPI.hook(this);
 ```
-All this does is register the dialogue listener and initializes DialogueManager
+All this does is register the dialogue listener and initializes DialogueManager.
 
 From this point on, you can either look at this <a href="https://github.com/nthByte-LLC/dialogue-example">example plugin</a> that uses this API or refer to the <a href="https://github.com/nthByte-LLC/dialogue/wiki">wiki</a>
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
-
 ## Support
-Need help or have questions? Join my <a href="https://discord.gg/ZP2xxC52An">discord</a>
+Need help or have questions? Join my <a href="https://discord.gg/ZP2xxC52An">discord</a>.
 
 
 
