@@ -1,10 +1,10 @@
 package com.nthbyte.dialogue;
 
 import com.nthbyte.dialogue.action.context.ActionContext;
+import javafx.util.Pair;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Object that represents dialogue between the plugin and a player.
@@ -22,8 +22,7 @@ public class Dialogue {
     /**
      * Actions that are ran when the dialogue ends.
      */
-    private Action.BasePromptAction endAction;
-    private ActionContext endActionContext;
+    private Map<Action.BasePromptAction, ActionContext> endActions;
     private int currentIndexPrompt = 0;
     /**
      * Repeats the prompt if the input was invalid.
@@ -34,8 +33,7 @@ public class Dialogue {
 
     private Dialogue(Dialogue.Builder builder){
         this.prompts = builder.prompts;
-        this.endActionContext = builder.context;
-        this.endAction = builder.endAction;
+        this.endActions = builder.endActions;
         this.escapeSequence = builder.escapeSequence;
         this.repeatPrompt = builder.repeatPrompt;
     }
@@ -77,8 +75,8 @@ public class Dialogue {
         getCurrentPrompt().prompt(player);
     }
 
-    public Action.BasePromptAction getEndAction() {
-        return endAction;
+    public Map<Action.BasePromptAction, ActionContext> getEndActions() {
+        return endActions;
     }
 
     public String getEscapeSequence() {
@@ -93,17 +91,14 @@ public class Dialogue {
         return repeatPrompt;
     }
 
-    public ActionContext getEndActionContext() {
-        return endActionContext;
-    }
-
     public static class Builder{
 
         private boolean repeatPrompt = true;
         private String escapeSequence = "";
         private List<Prompt> prompts = new ArrayList<>();
-        private Action.BasePromptAction endAction = Action.NO_ACTION;
-        private ActionContext context;
+        private Map<Action.BasePromptAction, ActionContext> endActions = new HashMap<Action.BasePromptAction, ActionContext>(){{
+            put(Action.NO_ACTION, null);
+        }};
 
         public Builder(){}
 
@@ -129,9 +124,8 @@ public class Dialogue {
          * @see Action
          * @return The builder.
          */
-        public <U extends ActionContext> Builder setEndAction(Action.DefaultAction<U> defaultAction, U context){
-            this.endAction = defaultAction;
-            this.context = context;
+        public <U extends ActionContext> Builder addEndAction(Action.DefaultAction<U> defaultAction, U context){
+            this.endActions.put(defaultAction, context);
             return this;
         }
 
@@ -140,8 +134,8 @@ public class Dialogue {
          * @param action Your action.
          * @return The builder.
          */
-        public <T extends ActionContext> Builder setEndAction(Action.EndAction<T> action){
-            this.endAction = action;
+        public <T extends ActionContext> Builder addEndAction(Action.EndAction<T> action){
+            this.endActions.put(action, null);
             return this;
         }
 

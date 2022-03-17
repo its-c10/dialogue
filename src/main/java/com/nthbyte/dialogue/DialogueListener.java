@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 import java.util.function.Function;
@@ -22,8 +23,10 @@ public class DialogueListener implements Listener {
 
     private Map<Player, Map<String, String>> inputStoragePerPlayer = new HashMap<>();
     private DialogueManager dialogueManager;
+    private JavaPlugin hookedPlugin;
 
-    public DialogueListener(DialogueManager dialogueManager){
+    public DialogueListener(JavaPlugin hookedPlugin, DialogueManager dialogueManager){
+        this.hookedPlugin = hookedPlugin;
         this.dialogueManager = dialogueManager;
     }
 
@@ -39,8 +42,10 @@ public class DialogueListener implements Listener {
         Player player = e.getPlayer();
         if(DialogueAPI.isHavingDialogue(player)){
             e.setCancelled(true);
-            Dialogue dialogue = dialogueManager.getCurrentDialogue(player);
-            fireReceiveInputEvent(player, dialogue, e.getMessage());
+            Bukkit.getScheduler().scheduleSyncDelayedTask(hookedPlugin, () -> {
+                Dialogue dialogue = dialogueManager.getCurrentDialogue(player);
+                fireReceiveInputEvent(player, dialogue, e.getMessage());
+            });
         }
 
     }
@@ -137,7 +142,11 @@ public class DialogueListener implements Listener {
             dialogue.nextPrompt(player);
         }else{
             Map<String, String> inputStorage = inputStoragePerPlayer.remove(player);
-            dialogue.getEndActionContext().setInputStorage(inputStorage);
+            for(ActionContext context : dialogue.getEndActions().values()){
+                if(context != null){
+                    context.setInputStorage(inputStorage);
+                }
+            }
             dialogueManager.endDialogue(player, DialogueEndCause.NO_MORE_PROMPTS);
         }
 

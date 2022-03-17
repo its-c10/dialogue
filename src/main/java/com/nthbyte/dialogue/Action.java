@@ -53,6 +53,13 @@ public final class Action {
         context.getInputStorage().put(key, input);
     });
 
+    /**
+     * Messages the responder.
+     */
+    public static final DefaultAction<ActionContext<String>> MESSAGE = ( (context, input) -> {
+        String message = context.getData();
+        context.getResponder().sendMessage(Utils.tr(message));
+    });
 
 }
 

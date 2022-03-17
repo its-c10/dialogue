@@ -1,6 +1,7 @@
 package com.nthbyte.dialogue;
 
 import com.nthbyte.dialogue.action.context.ActionContext;
+import javafx.util.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -54,28 +55,31 @@ public class DialogueManager {
         Dialogue endedDialogue = playersInDialogue.remove(player.getUniqueId());
         if(endedDialogue == null) return;
 
-        ActionContext context = endedDialogue.getEndActionContext();
-        Map<String, String> inputStorage = (context == null || !context.hasStoredInputs()) ? new HashMap<>() : context.getInputStorage();
-        Action.BasePromptAction endAction = endedDialogue.getEndAction();
-        // They are defining their own action.
-        if(endAction instanceof Action.EndAction || context == null){
-            // Will be null if they are defining their own action (and not using a default one).
-            context = new ActionContext(player);
-        }
-        context.setInputStorage(inputStorage);
+        for(Map.Entry<Action.BasePromptAction, ActionContext> pair : endedDialogue.getEndActions().entrySet()){
+            ActionContext context = pair.getValue();
+            Map<String, String> inputStorage = (context == null || !context.hasStoredInputs()) ? new HashMap<>() : context.getInputStorage();
+            Action.BasePromptAction endAction = pair.getKey();
+            // They are defining their own action.
+            if(endAction instanceof Action.EndAction || context == null){
+                // Will be null if they are defining their own action (and not using a default one).
+                context = new ActionContext(player);
+            }
+            context.setInputStorage(inputStorage);
 
-        if(!inputStorage.isEmpty() && context.getData() == null){
-            context.initData();
-        }
+            if(!inputStorage.isEmpty() && context.getData() == null){
+                context.initData();
+            }
 
-        if(endAction != null){
-            if(endAction instanceof Action.EndAction){
-                endAction.accept(context, cause);
-            }else{
-                // Default action
-                endAction.accept(context, "");
+            if(endAction != null){
+                if(endAction instanceof Action.EndAction){
+                    endAction.accept(context, cause);
+                }else{
+                    // Default action
+                    endAction.accept(context, "");
+                }
             }
         }
+
 
     }
 

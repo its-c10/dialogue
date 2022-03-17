@@ -20,7 +20,6 @@ public class ReceiveInputEvent extends Event {
     private Prompt prompt;
 
     public ReceiveInputEvent(Player player, Prompt prompt, String input){
-        super(true);
         this.player = player;
         this.input = input;
         this.prompt = prompt;
