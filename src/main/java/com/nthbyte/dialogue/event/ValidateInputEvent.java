@@ -15,7 +15,6 @@ public class ValidateInputEvent extends Event {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
 
     private boolean isValidInput = true;
-
     private Player responder;
     private String promptId, input;
 

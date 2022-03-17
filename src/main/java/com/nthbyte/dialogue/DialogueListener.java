@@ -89,8 +89,9 @@ public class DialogueListener implements Listener {
 
                 ActionContext context = entry.getValue();
                 if(context == null){
-                    context = new ActionContext(player);
+                    context = new ActionContext();
                 }
+                context.setResponder(player);
                 context.setInputStorage(inputStorage);
 
     //            if(!inputStorage.isEmpty() && context.getData() == null){

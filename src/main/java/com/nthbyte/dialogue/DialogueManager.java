@@ -62,8 +62,9 @@ public class DialogueManager {
             // They are defining their own action.
             if(endAction instanceof Action.EndAction || context == null){
                 // Will be null if they are defining their own action (and not using a default one).
-                context = new ActionContext(player);
+                context = new ActionContext();
             }
+            context.setResponder(player);
             context.setInputStorage(inputStorage);
 
             if(!inputStorage.isEmpty() && context.getData() == null){

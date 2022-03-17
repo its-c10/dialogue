@@ -19,17 +19,18 @@ public class ActionContext<T> {
     protected Player responder;
     protected T data = null;
 
-    public ActionContext(Player responder, T data){
-        this(responder);
+    public ActionContext(T data){
         this.data = data;
     }
 
-    public ActionContext(Player responder){
-        this.responder = responder;
-    }
+    public ActionContext(){ }
 
     public Player getResponder() {
         return responder;
+    }
+
+    public void setResponder(Player responder) {
+        this.responder = responder;
     }
 
     public Map<String, String> getInputStorage() {

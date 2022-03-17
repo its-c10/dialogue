@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 
 /**
  * Context that provides the given action with a HashMap key name.
@@ -14,9 +13,11 @@ import org.bukkit.entity.Player;
  */
 public class LocationContext extends ActionContext<Location> {
 
-    public LocationContext(Player responder) {
-        super(responder);
+    public LocationContext(Location location){
+        this.data = location;
     }
+
+    public LocationContext(){}
 
     @Override
     public void initData() {
