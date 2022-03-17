@@ -96,9 +96,7 @@ public class Dialogue {
         private boolean repeatPrompt = true;
         private String escapeSequence = "";
         private List<Prompt> prompts = new ArrayList<>();
-        private Map<Action.BasePromptAction, ActionContext> endActions = new HashMap<Action.BasePromptAction, ActionContext>(){{
-            put(Action.NO_ACTION, null);
-        }};
+        private Map<Action.BasePromptAction, ActionContext> endActions = new HashMap<>();
 
         public Builder(){}
 

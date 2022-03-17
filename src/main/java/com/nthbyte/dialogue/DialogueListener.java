@@ -75,34 +75,40 @@ public class DialogueListener implements Listener {
 
         Prompt prompt = e.getPrompt();
         String input = e.getInput();
-        Action.BasePromptAction<ActionContext, String> onReceiveInputAction = prompt.getOnReceiveInputAction();
-        Player player = e.getPlayer();
-        if(onReceiveInputAction != null){
+        Map<Action.BasePromptAction, ActionContext> receiveInputActions = prompt.getReceiveInputActions();
+        for (Map.Entry<Action.BasePromptAction, ActionContext> entry : receiveInputActions.entrySet()) {
 
-            Map<String, String> inputStorage = inputStoragePerPlayer.get(player);
-            if(inputStorage == null) {
-                inputStorage = new HashMap<>();
-            }
+            Action.BasePromptAction<ActionContext, String> onReceiveInputAction = entry.getKey();
+            Player player = e.getPlayer();
+            if(onReceiveInputAction != null){
 
-            ActionContext context = prompt.getContext();
-            if(context == null){
-                context = new ActionContext(player);
-            }
-            context.setInputStorage(inputStorage);
+                Map<String, String> inputStorage = inputStoragePerPlayer.get(player);
+                if(inputStorage == null) {
+                    inputStorage = new HashMap<>();
+                }
 
-//            if(!inputStorage.isEmpty() && context.getData() == null){
-//                context.initData();
-//            }
+                ActionContext context = entry.getValue();
+                if(context == null){
+                    context = new ActionContext(player);
+                }
+                context.setInputStorage(inputStorage);
 
-            onReceiveInputAction.accept(context, input);
-            // Input storage could have been added to if they are using Action.DefaultAction#STORE_INPUT
-            inputStorage = context.getInputStorage();
+    //            if(!inputStorage.isEmpty() && context.getData() == null){
+    //                context.initData();
+    //            }
 
-            if(!inputStorage.isEmpty()){
-                inputStoragePerPlayer.put(player, inputStorage);
+                onReceiveInputAction.accept(context, input);
+                // Input storage could have been added to if they are using Action.DefaultAction#STORE_INPUT
+                inputStorage = context.getInputStorage();
+
+                if(!inputStorage.isEmpty()){
+                    inputStoragePerPlayer.put(player, inputStorage);
+                }
+
             }
 
         }
+
 
     }
 

@@ -3,6 +3,8 @@ package com.nthbyte.dialogue;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -29,9 +31,9 @@ public class Prompt {
     private String text;
 
     /**
-     * The action that runs whenever you receive input SUCCESSFULLY, meaning it's valid input. Runs after the input format gets validated.
+     * The actions that runs whenever you receive input SUCCESSFULLY, meaning it's valid input. Runs after the input format gets validated.
      */
-    private Action.BasePromptAction<ActionContext, String> onReceiveInputAction;
+    private Map<Action.BasePromptAction, ActionContext> receiveInputActions;
 
     /**
      * The context for the receive input action.
@@ -47,9 +49,8 @@ public class Prompt {
         this.id = builder.id;
         this.text = builder.text;
         this.type = builder.type;
-        this.onReceiveInputAction = builder.onReceiveInputAction;
+        this.receiveInputActions = builder.receiveInputActions;
         this.onValidateInputAction = builder.onValidateInputAction;
-        this.context = builder.context;
     }
 
     public String getId() {
@@ -60,8 +61,8 @@ public class Prompt {
         return type;
     }
 
-    public Action.BasePromptAction<ActionContext, String> getOnReceiveInputAction() {
-        return onReceiveInputAction;
+    public Map<Action.BasePromptAction, ActionContext> getReceiveInputActions() {
+        return receiveInputActions;
     }
 
     public ActionContext getContext() {
@@ -81,8 +82,7 @@ public class Prompt {
         private String id = "";
         private String text = "No prompt text given.";
         private PromptInputType type = PromptInputType.NONE;
-        private Action.BasePromptAction onReceiveInputAction = Action.NO_ACTION;
-        private ActionContext context;
+        private Map<Action.BasePromptAction, ActionContext> receiveInputActions = new HashMap<>();
 
         // Prompt validator returns true by default.
         private Function<String, Boolean> onValidateInputAction = s -> true;
@@ -104,14 +104,20 @@ public class Prompt {
             return this;
         }
 
-        public Builder setReceiveInputAction(Action.BasePromptAction<ActionContext, String> action){
-            this.onReceiveInputAction = action;
+        /**
+         *
+         * @param defaultAction
+         * @param context
+         * @param <U>
+         * @return
+         */
+        public <U extends ActionContext> Builder addReceiveInputAction(Action.DefaultAction<U> defaultAction, U context){
+            receiveInputActions.put(defaultAction, context);
             return this;
         }
 
-        public <U extends ActionContext> Builder setReceiveInputAction(Action.DefaultAction<U> defaultAction, U context){
-            this.onReceiveInputAction = defaultAction;
-            this.context = context;
+        public Builder addReceiveInputAction(Action.BasePromptAction<ActionContext, String> action){
+            receiveInputActions.put(action, null);
             return this;
         }
 

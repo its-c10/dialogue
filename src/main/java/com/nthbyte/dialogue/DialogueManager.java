@@ -73,8 +73,7 @@ public class DialogueManager {
             if(endAction != null){
                 if(endAction instanceof Action.EndAction){
                     endAction.accept(context, cause);
-                }else{
-                    // Default action
+                }else if(endAction instanceof Action.DefaultAction && cause == DialogueEndCause.NO_MORE_PROMPTS){
                     endAction.accept(context, "");
                 }
             }

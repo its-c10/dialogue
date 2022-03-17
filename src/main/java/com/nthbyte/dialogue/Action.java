@@ -3,6 +3,9 @@ package com.nthbyte.dialogue;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import com.nthbyte.dialogue.action.context.LocationContext;
 
+import javax.management.remote.JMXServerErrorException;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
@@ -54,10 +57,20 @@ public final class Action {
     });
 
     /**
-     * Messages the responder.
+     * Messages the responder. Replaces input storage placeholders.
      */
     public static final DefaultAction<ActionContext<String>> MESSAGE = ( (context, input) -> {
         String message = context.getData();
+        Map<String, String> inputStorage = context.getInputStorage();
+        // Replaces all placeholders with values that are within the input storage.
+        for(Map.Entry<String, String> entry : inputStorage.entrySet()){
+            String dataKey = entry.getKey();
+            String inputValue = entry.getValue();
+            String placeholder = "%" + dataKey + "%";
+            if(message.contains(placeholder)){
+                message = message.replaceAll(placeholder, inputValue);
+            }
+        }
         context.getResponder().sendMessage(Utils.tr(message));
     });
 
