@@ -23,7 +23,7 @@ public class Dialogue {
      * Actions that are ran when the dialogue ends.
      */
     private Action.BasePromptAction endAction;
-    private ActionContext context;
+    private ActionContext endActionContext;
     private int currentIndexPrompt = 0;
     /**
      * Repeats the prompt if the input was invalid.
@@ -34,7 +34,7 @@ public class Dialogue {
 
     private Dialogue(Dialogue.Builder builder){
         this.prompts = builder.prompts;
-        this.context = builder.context;
+        this.endActionContext = builder.context;
         this.endAction = builder.endAction;
         this.escapeSequence = builder.escapeSequence;
         this.repeatPrompt = builder.repeatPrompt;
@@ -93,44 +93,44 @@ public class Dialogue {
         return repeatPrompt;
     }
 
-    public ActionContext getContext() {
-        return context;
+    public ActionContext getEndActionContext() {
+        return endActionContext;
     }
 
-    public static class Builder<U extends ActionContext, T extends Action.EndAction<U>>{
+    public static class Builder{
 
         private boolean repeatPrompt = true;
         private String escapeSequence = "";
         private List<Prompt> prompts = new ArrayList<>();
-        private T endAction = (T) Action.NO_END_ACTION;
-        private U context;
+        private Action.BasePromptAction endAction = Action.NO_ACTION;
+        private ActionContext context;
 
         public Builder(){}
 
-        public Builder<U, T> addPrompt(Prompt.Builder prompt){
+        public Builder addPrompt(Prompt.Builder prompt){
             this.prompts.add(prompt.build());
             return this;
         }
 
-        public Builder<U, T> setEscapeSequence(String escapeSequence){
+        public Builder setEscapeSequence(String escapeSequence){
             this.escapeSequence = escapeSequence;
             return this;
         }
 
-        public Builder<U, T> setRepeatPrompt(boolean repeatPrompt){
+        public Builder setRepeatPrompt(boolean repeatPrompt){
             this.repeatPrompt = repeatPrompt;
             return this;
         }
 
         /**
          * Using a default action.
-         * @param action A default action.
-         * @param context The context for the action.
+         * @param defaultAction A default action.
+         * @param context The endActionContext for the action.
          * @see Action
          * @return The builder.
          */
-        public Builder<U, T> setEndAction(Action.DefaultEndAction<U> action, U context){
-            this.endAction = (T) action;
+        public <U extends ActionContext> Builder setEndAction(Action.DefaultAction<U> defaultAction, U context){
+            this.endAction = defaultAction;
             this.context = context;
             return this;
         }
@@ -140,7 +140,7 @@ public class Dialogue {
          * @param action Your action.
          * @return The builder.
          */
-        public Builder<U, T> setEndAction(T action){
+        public <T extends ActionContext> Builder setEndAction(Action.EndAction<T> action){
             this.endAction = action;
             return this;
         }

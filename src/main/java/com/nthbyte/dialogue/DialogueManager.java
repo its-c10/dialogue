@@ -5,9 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The manager for all dialogue.
@@ -56,15 +54,31 @@ public class DialogueManager {
         Dialogue endedDialogue = playersInDialogue.remove(player.getUniqueId());
         if(endedDialogue == null) return;
 
+        ActionContext context = endedDialogue.getEndActionContext();
+        Map<String, String> inputStorage = (context == null || !context.hasStoredInputs()) ? new HashMap<>() : context.getInputStorage();
+        System.out.println("Input Storage in endDialogue on get: " + inputStorage);
         Action.BasePromptAction endAction = endedDialogue.getEndAction();
-        ActionContext context = endedDialogue.getContext();
-        // Will be null if they are defining their own action (and not using a default one).
-        if(context == null){
+        // They are defining their own action.
+        if(endAction instanceof Action.EndAction || context == null){
+            // Will be null if they are defining their own action (and not using a default one).
             context = new ActionContext(player);
+        }
+        System.out.println("Input storage: " + inputStorage);
+        context.setInputStorage(inputStorage);
+
+        System.out.println("we are here");
+        if(!inputStorage.isEmpty() && context.getData() == null){
+            System.out.println("In this block");
+            context.initData();
         }
 
         if(endAction != null){
-            endAction.accept(context, cause);
+            if(endAction instanceof Action.EndAction){
+                endAction.accept(context, cause);
+            }else{
+                // Default action
+                endAction.accept(context, "");
+            }
         }
 
     }

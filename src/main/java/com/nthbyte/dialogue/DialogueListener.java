@@ -9,8 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -21,6 +20,7 @@ import java.util.function.Function;
  */
 public class DialogueListener implements Listener {
 
+    private Map<Player, Map<String, String>> inputStoragePerPlayer = new HashMap<>();
     private DialogueManager dialogueManager;
 
     public DialogueListener(DialogueManager dialogueManager){
@@ -67,12 +67,41 @@ public class DialogueListener implements Listener {
 
     @EventHandler
     public void onReceiveInput(ReceiveInputEvent e){
+
         Prompt prompt = e.getPrompt();
         String input = e.getInput();
         Action.BasePromptAction<ActionContext, String> onReceiveInputAction = prompt.getOnReceiveInputAction();
+        Player player = e.getPlayer();
         if(onReceiveInputAction != null){
-            onReceiveInputAction.accept(new ActionContext(e.getPlayer()), input);
+
+            Map<String, String> inputStorage = inputStoragePerPlayer.get(player);
+            System.out.println("Input inputs on get" + inputStorage);
+            if(inputStorage == null) {
+                inputStorage = new HashMap<>();
+            }
+
+            ActionContext context = prompt.getContext();
+            if(context == null){
+                context = new ActionContext(player);
+            }
+            context.setInputStorage(inputStorage);
+
+//            if(!inputStorage.isEmpty() && context.getData() == null){
+//                context.initData();
+//            }
+
+            System.out.println("Input: " + input);
+            onReceiveInputAction.accept(context, input);
+            // Input storage could have been added to if they are using Action.DefaultAction#STORE_INPUT
+            inputStorage = context.getInputStorage();
+            System.out.println("Post input storage: " + inputStorage);
+
+            if(!inputStorage.isEmpty()){
+                inputStoragePerPlayer.put(player, inputStorage);
+            }
+
         }
+
     }
 
     private void fireReceiveInputEvent(Player player, Dialogue dialogue, String input){
@@ -110,6 +139,8 @@ public class DialogueListener implements Listener {
         if(dialogue.hasMorePrompts()){
             dialogue.nextPrompt(player);
         }else{
+            Map<String, String> inputStorage = inputStoragePerPlayer.remove(player);
+            dialogue.getEndActionContext().setInputStorage(inputStorage);
             dialogueManager.endDialogue(player, DialogueEndCause.NO_MORE_PROMPTS);
         }
 

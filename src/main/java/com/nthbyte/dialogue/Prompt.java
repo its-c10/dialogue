@@ -34,6 +34,11 @@ public class Prompt {
     private Action.BasePromptAction<ActionContext, String> onReceiveInputAction;
 
     /**
+     * The context for the receive input action.
+     */
+    private ActionContext context;
+
+    /**
      * The action that runs whenever you are validating input.
      */
     private Function<String, Boolean> onValidateInputAction;
@@ -44,6 +49,7 @@ public class Prompt {
         this.type = builder.type;
         this.onReceiveInputAction = builder.onReceiveInputAction;
         this.onValidateInputAction = builder.onValidateInputAction;
+        this.context = builder.context;
     }
 
     public String getId() {
@@ -56,6 +62,10 @@ public class Prompt {
 
     public Action.BasePromptAction<ActionContext, String> getOnReceiveInputAction() {
         return onReceiveInputAction;
+    }
+
+    public ActionContext getContext() {
+        return context;
     }
 
     public Function<String, Boolean> getOnValidateInputAction() {
@@ -71,7 +81,8 @@ public class Prompt {
         private String id = "";
         private String text = "No prompt text given.";
         private PromptInputType type = PromptInputType.NONE;
-        private Action.BasePromptAction<ActionContext, String> onReceiveInputAction = (player, input) -> {};
+        private Action.BasePromptAction onReceiveInputAction = Action.NO_ACTION;
+        private ActionContext context;
 
         // Prompt validator returns true by default.
         private Function<String, Boolean> onValidateInputAction = s -> true;
@@ -93,8 +104,14 @@ public class Prompt {
             return this;
         }
 
-        public Builder setOnReceiveInputAction(Action.BasePromptAction<ActionContext, String> action){
+        public Builder setReceiveInputAction(Action.BasePromptAction<ActionContext, String> action){
             this.onReceiveInputAction = action;
+            return this;
+        }
+
+        public <U extends ActionContext> Builder setReceiveInputAction(Action.DefaultAction<U> defaultAction, U context){
+            this.onReceiveInputAction = defaultAction;
+            this.context = context;
             return this;
         }
 

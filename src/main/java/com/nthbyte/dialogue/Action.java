@@ -1,8 +1,7 @@
 package com.nthbyte.dialogue;
 
-import com.nthbyte.dialogue.DialogueEndCause;
-import com.nthbyte.dialogue.action.context.LocationContext;
 import com.nthbyte.dialogue.action.context.ActionContext;
+import com.nthbyte.dialogue.action.context.LocationContext;
 
 import java.util.function.BiConsumer;
 
@@ -28,23 +27,30 @@ public final class Action {
     /**
      * Action that runs at the end of dialogue.
      */
-    protected interface DefaultEndAction<T extends ActionContext> extends EndAction<T> {}
+    protected interface DefaultAction<T extends ActionContext> extends BasePromptAction<T, String> {}
+
+    // DEFAULT ACTIONS
 
     /**
      * No action.
      */
-    public static final EndAction<ActionContext> NO_END_ACTION = (context, input) -> {};
-
-
-
-    // END ACTIONS
+    public static final DefaultAction<ActionContext> NO_ACTION = (context, input) -> {};
 
     /**
      * Teleports the player to a specific location.
      */
-    public static final DefaultEndAction<LocationContext> TELEPORT = (context, endCause) -> {
-        context.getResponder().teleport(context.getLocation());
+    public static final DefaultAction<LocationContext> TELEPORT = (context, input) -> {
+        context.getResponder().teleport(context.getData());
     };
+
+    /**
+     * Stores the input in the list of stored inputs. Useful if you want to use previous input in a future prompt, end action, or validation action.
+     */
+    public static final DefaultAction<ActionContext<String>> STORE_INPUT = ( (context, input) -> {
+        String key = context.getData();
+        context.getInputStorage().put(key, input);
+    });
+
 
 }
 

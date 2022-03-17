@@ -1,30 +1,64 @@
 package com.nthbyte.dialogue.action.context;
 
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 /**
- * Provides a specific action with context by giving a location.
+ * Context that provides the given action with a HashMap key name.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
  * @version 1.3.0.0
  */
-public class LocationContext extends ActionContext {
+public class LocationContext extends ActionContext<Location> {
 
-    private Location location;
-
-    public LocationContext(Player player, Location location){
-        super(player);
-        this.location = location;
+    public LocationContext(Player responder) {
+        super(responder);
     }
 
     @Override
-    public boolean isValid() {
-        return super.isValid() && location != null;
-    }
+    public void initData() {
 
-    public Location getLocation() {
-        return location;
+        System.out.println("Initializing Data");
+        int inputStorageCount = inputStorage.size();
+        /*
+            2 valid situations:
+                1. You specify the world, x, y, and z
+                2. You specify the x, y, and z
+         */
+        if(inputStorageCount != 3 && inputStorageCount != 4){
+            throw new IllegalStateException("The context cannot initialize its data. The input storage arguments are not valid!");
+        }
+
+        World world = null;
+        String firstInput = inputStorage.get("world");
+        // Could be a world name
+        if(firstInput != null && !StringUtils.isNumeric(firstInput)){
+            world = Bukkit.getWorld(firstInput);
+        }
+
+        if(world == null){
+            world = responder.getWorld();
+        }
+
+        String xInput = inputStorage.get("x");
+        String yInput = inputStorage.get("y");
+        String zInput = inputStorage.get("z");
+        boolean hasValidCoordinates = StringUtils.isNumeric(xInput)
+                && StringUtils.isNumeric(yInput)
+                && StringUtils.isNumeric(zInput);
+
+        if(hasValidCoordinates){
+            int x = Integer.parseInt(xInput);
+            int y = Integer.parseInt(yInput);
+            int z = Integer.parseInt(zInput);
+            this.data = new Location(world, x, y, z);
+        }else{
+            throw new IllegalStateException("The context cannot initialize its data. The coordinates are not valid!");
+        }
+
     }
 
 }
