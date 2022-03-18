@@ -22,7 +22,7 @@ public class Dialogue {
     /**
      * Actions that are ran when the dialogue ends.
      */
-    private Map<Action.BasePromptAction, ActionContext> endActions;
+    private LinkedHashMap<Action.BasePromptAction, ActionContext> endActions;
     private int currentIndexPrompt = 0;
     /**
      * Repeats the prompt if the input was invalid.
@@ -96,7 +96,7 @@ public class Dialogue {
         private boolean repeatPrompt = true;
         private String escapeSequence = "";
         private List<Prompt> prompts = new ArrayList<>();
-        private Map<Action.BasePromptAction, ActionContext> endActions = new HashMap<>();
+        private LinkedHashMap<Action.BasePromptAction, ActionContext> endActions = new LinkedHashMap<>();
 
         public Builder(){}
 

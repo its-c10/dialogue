@@ -4,6 +4,7 @@ import com.nthbyte.dialogue.action.context.ActionContext;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -33,7 +34,7 @@ public class Prompt {
     /**
      * The actions that runs whenever you receive input SUCCESSFULLY, meaning it's valid input. Runs after the input format gets validated.
      */
-    private Map<Action.BasePromptAction, ActionContext> receiveInputActions;
+    private LinkedHashMap<Action.BasePromptAction, ActionContext> receiveInputActions;
 
     /**
      * The context for the receive input action.
@@ -82,7 +83,7 @@ public class Prompt {
         private String id = "";
         private String text = "No prompt text given.";
         private PromptInputType type = PromptInputType.NONE;
-        private Map<Action.BasePromptAction, ActionContext> receiveInputActions = new HashMap<>();
+        private LinkedHashMap<Action.BasePromptAction, ActionContext> receiveInputActions = new LinkedHashMap<>();
 
         // Prompt validator returns true by default.
         private Function<String, Boolean> onValidateInputAction = s -> true;

@@ -53,7 +53,9 @@ public final class Action {
      */
     public static final DefaultAction<ActionContext<String>> STORE_INPUT = ( (context, input) -> {
         String key = context.getData();
-        context.getInputStorage().put(key, input);
+        Map<String, String> inputStorage = context.getInputStorage();
+        inputStorage.put(key, input);
+        context.setInputStorage(inputStorage);
     });
 
     /**
@@ -68,7 +70,7 @@ public final class Action {
             String inputValue = entry.getValue();
             String placeholder = "%" + dataKey + "%";
             if(message.contains(placeholder)){
-                message = message.replaceAll(placeholder, inputValue);
+                message = message.replace(placeholder, inputValue);
             }
         }
         context.getResponder().sendMessage(Utils.tr(message));

@@ -42,8 +42,8 @@ public class DialogueListener implements Listener {
         Player player = e.getPlayer();
         if(DialogueAPI.isHavingDialogue(player)){
             e.setCancelled(true);
+            Dialogue dialogue = dialogueManager.getCurrentDialogue(player);
             Bukkit.getScheduler().scheduleSyncDelayedTask(hookedPlugin, () -> {
-                Dialogue dialogue = dialogueManager.getCurrentDialogue(player);
                 fireReceiveInputEvent(player, dialogue, e.getMessage());
             });
         }
@@ -89,7 +89,7 @@ public class DialogueListener implements Listener {
 
                 ActionContext context = entry.getValue();
                 if(context == null){
-                    context = new ActionContext();
+                    context = new ActionContext<>();
                 }
                 context.setResponder(player);
                 context.setInputStorage(inputStorage);
@@ -99,8 +99,6 @@ public class DialogueListener implements Listener {
     //            }
 
                 onReceiveInputAction.accept(context, input);
-                // Input storage could have been added to if they are using Action.DefaultAction#STORE_INPUT
-                inputStorage = context.getInputStorage();
 
                 if(!inputStorage.isEmpty()){
                     inputStoragePerPlayer.put(player, inputStorage);
