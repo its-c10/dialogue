@@ -108,7 +108,6 @@ public class DialogueListener implements Listener {
 
         }
 
-
     }
 
     private void fireReceiveInputEvent(Player player, Dialogue dialogue, String input){

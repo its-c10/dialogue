@@ -53,9 +53,7 @@ public final class Action {
      */
     public static final DefaultAction<ActionContext<String>> STORE_INPUT = ( (context, input) -> {
         String key = context.getData();
-        Map<String, String> inputStorage = context.getInputStorage();
-        inputStorage.put(key, input);
-        context.setInputStorage(inputStorage);
+        context.getInputStorage().put(key, input);
     });
 
     /**
