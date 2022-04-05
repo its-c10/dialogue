@@ -9,7 +9,7 @@ import java.util.*;
  * Object that represents dialogue between the plugin and a player.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.3.0.0
+ * @version 1.4.0.0
  */
 public class Dialogue {
 
@@ -101,11 +101,6 @@ public class Dialogue {
 
         public Builder addPrompt(Prompt.Builder prompt){
             this.prompts.add(prompt.build());
-            return this;
-        }
-
-        public Builder setEscapeSequence(String escapeSequence){
-            this.escapeSequences = new String[]{escapeSequence};
             return this;
         }
 
