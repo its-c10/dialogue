@@ -115,7 +115,7 @@ public class DialogueListener implements Listener {
         Prompt prompt = dialogue.getCurrentPrompt();
         PromptInputType inputType = prompt.getType();
 
-        if(input.equalsIgnoreCase(dialogue.getEscapeSequence())){
+        if(Arrays.stream(dialogue.getEscapeSequences()).anyMatch(input::equalsIgnoreCase)){
             dialogueManager.endDialogue(player, DialogueEndCause.ESCAPE_SEQUENCE);
             return;
         }

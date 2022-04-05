@@ -1,7 +1,6 @@
 package com.nthbyte.dialogue;
 
 import com.nthbyte.dialogue.action.context.ActionContext;
-import javafx.util.Pair;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -17,7 +16,7 @@ public class Dialogue {
     /**
      * The sequence that you have to type in order to quit the dialogue.
      */
-    private String escapeSequence;
+    private String[] escapeSequences;
     private List<Prompt> prompts;
     /**
      * Actions that are ran when the dialogue ends.
@@ -34,7 +33,7 @@ public class Dialogue {
     private Dialogue(Dialogue.Builder builder){
         this.prompts = builder.prompts;
         this.endActions = builder.endActions;
-        this.escapeSequence = builder.escapeSequence;
+        this.escapeSequences = builder.escapeSequences;
         this.repeatPrompt = builder.repeatPrompt;
     }
 
@@ -79,8 +78,8 @@ public class Dialogue {
         return endActions;
     }
 
-    public String getEscapeSequence() {
-        return escapeSequence;
+    public String[] getEscapeSequences() {
+        return escapeSequences;
     }
 
     public int getCurrentIndexPrompt() {
@@ -94,7 +93,7 @@ public class Dialogue {
     public static class Builder{
 
         private boolean repeatPrompt = true;
-        private String escapeSequence = "";
+        private String[] escapeSequences = new String[]{""};
         private List<Prompt> prompts = new ArrayList<>();
         private LinkedHashMap<Action.BasePromptAction, ActionContext> endActions = new LinkedHashMap<>();
 
@@ -106,7 +105,12 @@ public class Dialogue {
         }
 
         public Builder setEscapeSequence(String escapeSequence){
-            this.escapeSequence = escapeSequence;
+            this.escapeSequences = new String[]{escapeSequence};
+            return this;
+        }
+
+        public Builder setEscapeSequences(String... escapeSequences) {
+            this.escapeSequences = escapeSequences;
             return this;
         }
 
