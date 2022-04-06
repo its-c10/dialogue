@@ -12,6 +12,8 @@
 
 Dialogue is a Spigot API that completely revamps the Conversation API. <b><i>This is not a plugin you put on your server</b></i>.
 
+Want to know what's currently being worked on? Check out the <a href="https://calebowens.youtrack.cloud/projects/9fdf6ba0-79d6-4879-9dfc-0fcf98a7e31a">task board</a> for this project
+
 ## Installation
 
 ### Maven
