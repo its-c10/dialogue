@@ -29,7 +29,7 @@ public class InputFormatValidator {
             case DECIMAL: return isDecimal(input);
             case INTEGER: return isInteger(input);
             case LETTERS: return StringUtils.isAlpha(input);
-            case LETTERS_AND_NUMBERS: return StringUtils.isAlphanumeric(input);
+            case LETTERS_AND_NUMBERS: return StringUtils.isAlphanumericSpace(input);
             case LOWERCASE_LETTERS: return StringUtils.isAllLowerCase(input);
             case UPPERCASE_LETTERS: return StringUtils.isAllUpperCase(input);
             case COLORFUL_STRING: return isColoredString(input);
