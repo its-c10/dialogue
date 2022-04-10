@@ -9,7 +9,7 @@ import org.bukkit.World;
  * Context that provides the given action with a location.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.1.0
+ * @version 1.4.1.1
  */
 public class LocationContext extends ActionContext<Location> {
 

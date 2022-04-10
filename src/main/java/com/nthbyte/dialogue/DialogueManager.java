@@ -12,7 +12,7 @@ import java.util.*;
  * The manager for all dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.1.0
+ * @version 1.4.1.1
  */
 public class DialogueManager {
 
@@ -60,6 +60,10 @@ public class DialogueManager {
 
             ActionContext<?> context = entry.getValue();
             Map<String, String> inputStorage = inputStoragePerPlayer.remove(player);
+            if(inputStorage == null){
+                inputStorage = new HashMap<>();
+            }
+
             Action.BasePromptAction endAction = entry.getKey();
             // They are defining their own action.
             if(endAction instanceof Action.EndAction || context == null){
