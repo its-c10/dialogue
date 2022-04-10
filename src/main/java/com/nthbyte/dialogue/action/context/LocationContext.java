@@ -6,10 +6,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 /**
- * Context that provides the given action with a HashMap key name.
+ * Context that provides the given action with a location.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.1.0
  */
 public class LocationContext extends ActionContext<Location> {
 
@@ -20,7 +20,7 @@ public class LocationContext extends ActionContext<Location> {
     public LocationContext(){}
 
     @Override
-    public void initData() {
+    public void constructData() {
 
         int inputStorageCount = inputStorage.size();
         /*

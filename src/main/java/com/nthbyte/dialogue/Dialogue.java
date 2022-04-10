@@ -1,5 +1,6 @@
 package com.nthbyte.dialogue;
 
+import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import org.bukkit.entity.Player;
 
@@ -9,7 +10,7 @@ import java.util.*;
  * Object that represents dialogue between the plugin and a player.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.1.0
  */
 public class Dialogue {
 
@@ -17,12 +18,16 @@ public class Dialogue {
      * The sequence that you have to type in order to quit the dialogue.
      */
     private String[] escapeSequences;
+
     private List<Prompt> prompts;
+
     /**
      * Actions that are ran when the dialogue ends.
      */
     private LinkedHashMap<Action.BasePromptAction, ActionContext> endActions;
+
     private int currentIndexPrompt = 0;
+
     /**
      * Repeats the prompt if the input was invalid.
      */
@@ -54,15 +59,6 @@ public class Dialogue {
     public boolean hasMorePrompts(){
         return currentIndexPrompt != prompts.size() - 1;
     }
-
-//    /**
-//     * Starts the dialogue with the first prompt.
-//     * @param player The player we are conversing with.
-//     */
-//    public void start(Player player){
-//        player.closeInventory();
-//        getCurrentPrompt().prompt(player);
-//    }
 
     /**
      * Prompts the next prompt to the player.

@@ -1,18 +1,18 @@
 package com.nthbyte.dialogue;
 
+import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
+import com.nthbyte.dialogue.util.Utils;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 /**
  * Represents a question or a request.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.1.0
  */
 public class Prompt {
 
@@ -27,9 +27,9 @@ public class Prompt {
     private PromptInputType type;
 
     /**
-     * The text that is sent to the player.
+     * The allText that is sent to the player.
      */
-    private String text;
+    private List<String> allText;
 
     /**
      * The actions that runs whenever you receive input SUCCESSFULLY, meaning it's valid input. Runs after the input format gets validated.
@@ -48,7 +48,7 @@ public class Prompt {
 
     private Prompt(Prompt.Builder builder){
         this.id = builder.id;
-        this.text = builder.text;
+        this.allText = builder.allText;
         this.type = builder.type;
         this.receiveInputActions = builder.receiveInputActions;
         this.onValidateInputAction = builder.onValidateInputAction;
@@ -75,23 +75,32 @@ public class Prompt {
     }
 
     public void prompt(Player player){
-        player.sendMessage(Utils.tr(text));
+        for(String s : allText){
+            player.sendMessage(Utils.tr(s));
+        }
     }
 
     public static class Builder{
 
         private String id = "";
-        private String text = "No prompt text given.";
+        private List<String> allText = new ArrayList<>();
         private PromptInputType type = PromptInputType.NONE;
         private LinkedHashMap<Action.BasePromptAction, ActionContext> receiveInputActions = new LinkedHashMap<>();
 
         // Prompt validator returns true by default.
         private Function<String, Boolean> onValidateInputAction = s -> true;
 
-        public Builder(){}
+        public Builder(){
+            allText.add("No prompt text given.");
+        }
 
-        public Builder setText(String text){
-            this.text = text;
+        public Builder addText(String text){
+            allText.add(text);
+            return this;
+        }
+
+        public Builder setText(String... text){
+            allText = Arrays.asList(text);
             return this;
         }
 
@@ -106,17 +115,23 @@ public class Prompt {
         }
 
         /**
-         *
-         * @param defaultAction
-         * @param context
-         * @param <U>
-         * @return
+         * Adds a default action that gets executed when input is received for this prompt.
+         * @param defaultAction The default action.
+         * @param context The context/information that the action needs in order to execute.
+         * @param <U> The type of context needed for this action.
+         * @return The builder.
+         * @see Action
          */
         public <U extends ActionContext> Builder addReceiveInputAction(Action.DefaultAction<U> defaultAction, U context){
             receiveInputActions.put(defaultAction, context);
             return this;
         }
 
+        /**
+         * Adds your own action that gets executed when input is received for this prompt.
+         * @param action Your defined action.
+         * @return The builder.
+         */
         public Builder addReceiveInputAction(Action.BasePromptAction<ActionContext, String> action){
             receiveInputActions.put(action, null);
             return this;

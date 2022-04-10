@@ -1,5 +1,6 @@
 package com.nthbyte.dialogue;
 
+import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,7 +12,7 @@ import java.util.*;
  * The manager for all dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.1.0
  */
 public class DialogueManager {
 
@@ -35,7 +36,6 @@ public class DialogueManager {
     }
 
     public void startDialogue(Player player, Dialogue dialogue){
-
         // They are trying start a dialogue that has previously already ended.
         if(dialogue.getCurrentIndexPrompt() != 0){
             throw new IllegalStateException("You can not start a dialogue that has already ended!");
@@ -67,7 +67,7 @@ public class DialogueManager {
             context.setInputStorage(inputStorage);
 
             if(!inputStorage.isEmpty() && context.getData() == null){
-                context.initData();
+                context.constructData();
             }
 
             if(endAction != null){

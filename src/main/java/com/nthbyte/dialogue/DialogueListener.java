@@ -1,8 +1,11 @@
 package com.nthbyte.dialogue;
 
+import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import com.nthbyte.dialogue.event.ReceiveInputEvent;
 import com.nthbyte.dialogue.event.ValidateInputEvent;
+import com.nthbyte.dialogue.util.InputFormatValidator;
+import com.nthbyte.dialogue.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +20,7 @@ import java.util.function.Function;
  * The listener for all input and dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.1.0
  */
 public class DialogueListener implements Listener {
 
@@ -54,22 +57,25 @@ public class DialogueListener implements Listener {
         Another way to deal with the receiving of input if you don't want to use the consumer.
      */
 
-//    @EventHandler
-//    public void onReceiveInput(ReceiveInputEvent e) {
-//
-//        Prompt prompt = e.getPrompt();
-//
-//        if (!prompt.getId().equalsIgnoreCase("creation-tier")) return;
-//
-//        int tier = (int) e.getInput();
-//        Player player = e.getPlayer();
-//        Toady.Builder currentSession = plugin.getToadyManager().getToadyCreationSessions().get(player.getUniqueId());
-//        currentSession.setTier(tier);
-//
-//        player.sendMessage(StringUtils.colorString("&bThe tier has been set to "));
-//
-//    }
+/*    @EventHandler
+    public void onReceiveInput(ReceiveInputEvent e) {
 
+        Prompt prompt = e.getPrompt();
+
+        if (!prompt.getId().equalsIgnoreCase("creation-tier")) return;
+
+        int tier = (int) e.getInput();
+        Player player = e.getPlayer();
+        Toady.Builder currentSession = plugin.getToadyManager().getToadyCreationSessions().get(player.getUniqueId());
+        currentSession.setTier(tier);
+
+        player.sendMessage(StringUtils.colorString("&bThe tier has been set to "));
+
+    }*/
+
+    /**
+     * Deals with input storage (If the prompt as an input storage action)
+     */
     @EventHandler
     public void onReceiveInput(ReceiveInputEvent e){
 
@@ -93,10 +99,6 @@ public class DialogueListener implements Listener {
                 }
                 context.setResponder(player);
                 context.setInputStorage(inputStorage);
-
-    //            if(!inputStorage.isEmpty() && context.getData() == null){
-    //                context.initData();
-    //            }
 
                 onReceiveInputAction.accept(context, input);
 

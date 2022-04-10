@@ -1,5 +1,6 @@
-package com.nthbyte.dialogue;
+package com.nthbyte.dialogue.util;
 
+import com.nthbyte.dialogue.PromptInputType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -10,7 +11,7 @@ import java.util.UUID;
  * Validates the format of input.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.1.0
  */
 public class InputFormatValidator {
 

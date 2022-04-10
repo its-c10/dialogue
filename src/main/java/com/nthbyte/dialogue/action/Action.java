@@ -1,17 +1,17 @@
-package com.nthbyte.dialogue;
+package com.nthbyte.dialogue.action;
 
+import com.nthbyte.dialogue.DialogueEndCause;
+import com.nthbyte.dialogue.util.Utils;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import com.nthbyte.dialogue.action.context.LocationContext;
 
-import javax.management.remote.JMXServerErrorException;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
  * Default actions that you can use for different stages of the prompt.
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.1.0
  */
 public final class Action {
 
@@ -20,6 +20,10 @@ public final class Action {
      */
     public interface BasePromptAction<T extends ActionContext, U> extends BiConsumer<T, U> {}
 
+    /**
+     * Actions that runs when input is received.
+     * @param <T>
+     */
     public interface ReceiveInputAction<T extends ActionContext> extends BasePromptAction<T, String> {}
 
     /**
@@ -28,9 +32,9 @@ public final class Action {
     public interface EndAction<T extends ActionContext> extends BasePromptAction<T, DialogueEndCause> {}
 
     /**
-     * Action that runs at the end of dialogue.
+     * Action that has its functionality defined already.
      */
-    protected interface DefaultAction<T extends ActionContext> extends BasePromptAction<T, String> {}
+    public interface DefaultAction<T extends ActionContext> extends BasePromptAction<T, String> {}
 
     private Action(){}
 
