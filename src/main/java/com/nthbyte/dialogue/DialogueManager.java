@@ -16,6 +16,8 @@ import java.util.*;
  */
 public class DialogueManager {
 
+    private static Map<Player, Map<String, String>> inputStoragePerPlayer = new HashMap<>();
+
     /**
      * The players current in dialogue.
      */
@@ -54,10 +56,11 @@ public class DialogueManager {
         Dialogue endedDialogue = playersInDialogue.remove(player.getUniqueId());
         if(endedDialogue == null) return;
 
-        for(Map.Entry<Action.BasePromptAction, ActionContext> pair : endedDialogue.getEndActions().entrySet()){
-            ActionContext context = pair.getValue();
-            Map<String, String> inputStorage = (context == null || !context.hasStoredInputs()) ? new HashMap<>() : context.getInputStorage();
-            Action.BasePromptAction endAction = pair.getKey();
+        for(Map.Entry<Action.BasePromptAction, ActionContext> entry : endedDialogue.getEndActions().entrySet()){
+
+            ActionContext<?> context = entry.getValue();
+            Map<String, String> inputStorage = inputStoragePerPlayer.remove(player);
+            Action.BasePromptAction endAction = entry.getKey();
             // They are defining their own action.
             if(endAction instanceof Action.EndAction || context == null){
                 // Will be null if they are defining their own action (and not using a default one).
@@ -77,13 +80,17 @@ public class DialogueManager {
                     endAction.accept(context, "");
                 }
             }
-        }
 
+        }
 
     }
 
     public Dialogue getCurrentDialogue(Player player){
         return playersInDialogue.get(player.getUniqueId());
+    }
+
+    public static Map<Player, Map<String, String>> getInputStoragePerPlayer() {
+        return inputStoragePerPlayer;
     }
 
 }

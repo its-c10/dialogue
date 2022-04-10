@@ -17,6 +17,8 @@ public final class Action {
 
     /**
      * Base prompt action. Can run when prompt ends, or on input receive.
+     * @param <T> The type of action context.
+     * @param <U> Another useful piece of information. Could be any data type.
      */
     public interface BasePromptAction<T extends ActionContext, U> extends BiConsumer<T, U> {}
 

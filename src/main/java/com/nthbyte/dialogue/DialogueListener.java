@@ -24,7 +24,6 @@ import java.util.function.Function;
  */
 public class DialogueListener implements Listener {
 
-    private Map<Player, Map<String, String>> inputStoragePerPlayer = new HashMap<>();
     private DialogueManager dialogueManager;
     private JavaPlugin hookedPlugin;
 
@@ -88,7 +87,7 @@ public class DialogueListener implements Listener {
             Player player = e.getPlayer();
             if(onReceiveInputAction != null){
 
-                Map<String, String> inputStorage = inputStoragePerPlayer.get(player);
+                Map<String, String> inputStorage = DialogueManager.getInputStoragePerPlayer().get(player);
                 if(inputStorage == null) {
                     inputStorage = new HashMap<>();
                 }
@@ -103,7 +102,7 @@ public class DialogueListener implements Listener {
                 onReceiveInputAction.accept(context, input);
 
                 if(!inputStorage.isEmpty()){
-                    inputStoragePerPlayer.put(player, inputStorage);
+                    DialogueManager.getInputStoragePerPlayer().put(player, inputStorage);
                 }
 
             }
@@ -147,7 +146,7 @@ public class DialogueListener implements Listener {
         if(dialogue.hasMorePrompts()){
             dialogue.nextPrompt(player);
         }else{
-            Map<String, String> inputStorage = inputStoragePerPlayer.remove(player);
+            Map<String, String> inputStorage = DialogueManager.getInputStoragePerPlayer().get(player);
             for(ActionContext context : dialogue.getEndActions().values()){
                 if(context != null){
                     context.setInputStorage(inputStorage);

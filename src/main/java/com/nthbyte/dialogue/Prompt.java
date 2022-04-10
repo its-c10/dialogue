@@ -3,6 +3,7 @@ package com.nthbyte.dialogue;
 import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import com.nthbyte.dialogue.util.Utils;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
 import org.bukkit.entity.Player;
 
 import java.util.*;
