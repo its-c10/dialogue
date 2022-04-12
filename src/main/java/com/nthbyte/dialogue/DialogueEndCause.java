@@ -31,7 +31,7 @@ public enum DialogueEndCause {
     /**
      * You have reached the retry limit.
      */
-    REACHED_RETRY_LIMIT,
+    RETRY_LIMIT_REACHED,
 
     /**
      * The start of another dialogue has halted the current one.
