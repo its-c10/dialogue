@@ -3,6 +3,7 @@ package com.nthbyte.dialogue;
 import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
@@ -10,7 +11,7 @@ import java.util.*;
  * Object that represents dialogue between the plugin and a player.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.1.1
+ * @version 1.4.2.0
  */
 public class Dialogue {
 
@@ -65,9 +66,9 @@ public class Dialogue {
      *
      * @param player The player we are prompting.
      */
-    public void nextPrompt(Player player){
+    public void nextPrompt(JavaPlugin plugin, Player player){
         currentIndexPrompt++;
-        getCurrentPrompt().prompt(player);
+        getCurrentPrompt().prompt(plugin, player);
     }
 
     public Map<Action.BasePromptAction, ActionContext> getEndActions() {

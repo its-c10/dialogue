@@ -12,7 +12,7 @@ import java.util.*;
  * The manager for all dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.1.1
+ * @version 1.4.2.0
  */
 public class DialogueManager {
 
@@ -48,7 +48,7 @@ public class DialogueManager {
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::closeInventory);
 
         playersInDialogue.put(player.getUniqueId(), dialogue);
-        dialogue.getCurrentPrompt().prompt(player);
+        dialogue.getCurrentPrompt().prompt(plugin, player);
     }
 
     public void endDialogue(Player player, DialogueEndCause cause){

@@ -3,8 +3,9 @@ package com.nthbyte.dialogue;
 import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import com.nthbyte.dialogue.util.Utils;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 import java.util.function.Function;
@@ -13,7 +14,7 @@ import java.util.function.Function;
  * Represents a question or a request.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.1.1
+ * @version 1.4.2.0
  */
 public class Prompt {
 
@@ -47,12 +48,18 @@ public class Prompt {
      */
     private Function<String, Boolean> onValidateInputAction;
 
+    /**
+     * How long, in ticks, the plugin will wait before playing this prompt.
+     */
+    private int delay;
+
     private Prompt(Prompt.Builder builder){
         this.id = builder.id;
         this.allText = builder.allText;
         this.type = builder.type;
         this.receiveInputActions = builder.receiveInputActions;
         this.onValidateInputAction = builder.onValidateInputAction;
+        this.delay = builder.delay;
     }
 
     public String getId() {
@@ -75,10 +82,12 @@ public class Prompt {
         return onValidateInputAction;
     }
 
-    public void prompt(Player player){
-        for(String s : allText){
-            player.sendMessage(Utils.tr(s));
-        }
+    public void prompt(JavaPlugin plugin, Player player){
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            for(String s : allText){
+                player.sendMessage(Utils.tr(s));
+            }
+        }, delay);
     }
 
     public static class Builder{
@@ -87,6 +96,7 @@ public class Prompt {
         private List<String> allText = new ArrayList<>();
         private PromptInputType type = PromptInputType.NONE;
         private LinkedHashMap<Action.BasePromptAction, ActionContext> receiveInputActions = new LinkedHashMap<>();
+        private int delay;
 
         // Prompt validator returns true by default.
         private Function<String, Boolean> onValidateInputAction = s -> true;
@@ -140,6 +150,11 @@ public class Prompt {
 
         public Builder setOnValidateInputAction(Function<String, Boolean> onValidateInputAction) {
             this.onValidateInputAction = onValidateInputAction;
+            return this;
+        }
+
+        public Builder setDelay(int delay) {
+            this.delay = delay;
             return this;
         }
 
