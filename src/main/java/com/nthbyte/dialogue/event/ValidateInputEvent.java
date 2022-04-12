@@ -8,7 +8,7 @@ import org.bukkit.event.HandlerList;
  * The event that fires just before the prompt uses its own validation check (If there is any). Use this if you wish to do your own validation.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.2.0
+ * @version 1.4.3.0
  */
 public class ValidateInputEvent extends Event {
 

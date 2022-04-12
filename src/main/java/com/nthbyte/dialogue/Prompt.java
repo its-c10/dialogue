@@ -14,7 +14,7 @@ import java.util.function.Function;
  * Represents a question or a request.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.2.0
+ * @version 1.4.3.0
  */
 public class Prompt {
 
@@ -53,6 +53,19 @@ public class Prompt {
      */
     private int delay;
 
+    /**
+     * How many times a player can try to answer a prompt.
+     */
+    private int retryLimit;
+
+    /**
+     * Whether the dialogue stops when a player fails (you have reached the retry limit) to enter valid input for a prompt.
+     * This value only matters if the retry limit is not -1.
+     */
+    private boolean stopUponFailure;
+
+    private int numRetries = 0;
+
     private Prompt(Prompt.Builder builder){
         this.id = builder.id;
         this.allText = builder.allText;
@@ -60,6 +73,8 @@ public class Prompt {
         this.receiveInputActions = builder.receiveInputActions;
         this.onValidateInputAction = builder.onValidateInputAction;
         this.delay = builder.delay;
+        this.retryLimit = builder.retryLimit;
+        this.stopUponFailure = builder.stopUponFailure;
     }
 
     public String getId() {
@@ -90,6 +105,22 @@ public class Prompt {
         }, delay);
     }
 
+    public void incrementRetries(){
+        numRetries++;
+    }
+
+    public boolean isAtRetryLimit(){
+        return numRetries == retryLimit;
+    }
+
+    public int getRetryLimit() {
+        return retryLimit;
+    }
+
+    public boolean willStopDialougeOnFailure(){
+        return stopUponFailure;
+    }
+
     public static class Builder{
 
         private String id = "";
@@ -97,6 +128,8 @@ public class Prompt {
         private PromptInputType type = PromptInputType.NONE;
         private LinkedHashMap<Action.BasePromptAction, ActionContext> receiveInputActions = new LinkedHashMap<>();
         private int delay;
+        private int retryLimit = -1;
+        private boolean stopUponFailure;
 
         // Prompt validator returns true by default.
         private Function<String, Boolean> onValidateInputAction = s -> true;
@@ -155,6 +188,16 @@ public class Prompt {
 
         public Builder setDelay(int delay) {
             this.delay = delay;
+            return this;
+        }
+
+        public Builder setRetryLimit(int retries){
+            this.retryLimit = retries;
+            return this;
+        }
+
+        public Builder stopDialogueUponFailure(){
+            this.stopUponFailure = true;
             return this;
         }
 

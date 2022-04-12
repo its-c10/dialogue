@@ -11,7 +11,7 @@ import java.util.function.BiConsumer;
 /**
  * Default actions that you can use for different stages of the prompt.
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.2.0
+ * @version 1.4.3.0
  */
 public final class Action {
 
