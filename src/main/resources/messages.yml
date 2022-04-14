@@ -1,0 +1,2 @@
+invalid-input: "&cThe input is not in the valid format! The input type should be %inputType%"
+reached-retry-limit: "&cYou've reached the retry limit!"

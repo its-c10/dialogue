@@ -1,16 +1,21 @@
 package com.nthbyte.dialogue;
 
+import com.google.common.io.Files;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * An API that completely eliminates your need for the ConversationsAPI
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.3.0
+ * @version 1.4.4.0
  */
 public class DialogueAPI {
 
+    private static MessagesConfig messagesConfig;
     private static DialogueManager dialogueManager;
 
     /**
@@ -19,8 +24,23 @@ public class DialogueAPI {
      * @param hookingPlugin A plugin instance.
      */
     public static void hook(JavaPlugin hookingPlugin){
+
         dialogueManager = new DialogueManager(hookingPlugin);
         hookingPlugin.getServer().getPluginManager().registerEvents(new DialogueListener(hookingPlugin, dialogueManager), hookingPlugin);
+
+        File messagesFile = new File(hookingPlugin.getDataFolder() + File.separator + "dialogue" + File.separator + "messages.yml");
+        if(!messagesFile.exists()){
+            new File(hookingPlugin.getDataFolder() + File.separator + "dialogue").mkdirs();
+            hookingPlugin.saveResource("messages.yml", false);
+            File currentMessagesFile = new File(hookingPlugin.getDataFolder(), "messages.yml");
+            try {
+                Files.move(currentMessagesFile, messagesFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        messagesConfig = new MessagesConfig(hookingPlugin);
+
     }
 
     /**
@@ -51,6 +71,10 @@ public class DialogueAPI {
      */
     public static void endDialogue(Player player, DialogueEndCause cause){
         dialogueManager.endDialogue(player, cause);
+    }
+
+    public static MessagesConfig getMessagesConfig() {
+        return messagesConfig;
     }
 
 }

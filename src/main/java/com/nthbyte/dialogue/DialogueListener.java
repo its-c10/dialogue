@@ -20,7 +20,7 @@ import java.util.function.Function;
  * The listener for all input and dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.3.0
+ * @version 1.4.4.0
  */
 public class DialogueListener implements Listener {
 
@@ -123,8 +123,9 @@ public class DialogueListener implements Listener {
 
         boolean shouldRepeatPrompt = dialogue.shouldRepeatPrompt();
         if(!InputFormatValidator.isValidFormat(inputType, input)){
-            // TODO: Make it to where developers will be able to specify this message in the future.
-            player.sendMessage(Utils.tr("&cThe input is not in the valid format! The input type should be " + inputType));
+            String rawMsg = DialogueAPI.getMessagesConfig().INVALID_INPUT.replace("%inputType%", inputType.toString());
+            String msg = rawMsg.replace("%inputType%", inputType.toString());
+            player.sendMessage(Utils.tr(msg));
             if(shouldRepeatPrompt){
                 prompt.prompt(hookedPlugin, player);
             }
@@ -149,7 +150,7 @@ public class DialogueListener implements Listener {
         if(!isValidInput && shouldRepeatPrompt && !atRetryLimit) {
             prompt.prompt(hookedPlugin, player);
         }else if(!isValidInput && atRetryLimit){
-            player.sendMessage(Utils.tr("&cYou've reached the retry limit!"));
+            player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().REACHED_RETRY_LIMIT));
             if(prompt.willStopDialougeOnFailure()){
                 endDialogue(dialogue, player);
             }else{

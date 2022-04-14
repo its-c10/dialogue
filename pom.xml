@@ -12,7 +12,7 @@
         Third number I will change whenever I add a new feature.
         Fourth number I will change for bug fixes.
     -->
-    <version>1.4.3.0</version>
+    <version>1.4.4.0</version>
     <packaging>jar</packaging>
 
     <name>Dialogue</name>
@@ -53,7 +53,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>../Personal Plugins/Dialogue/src/main/resources</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
