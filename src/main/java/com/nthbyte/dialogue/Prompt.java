@@ -53,6 +53,8 @@ public class Prompt {
      */
     private int delay;
 
+    private int timeLimit;
+
     private Prompt(Prompt.Builder builder){
         this.id = builder.id;
         this.allText = builder.allText;
@@ -60,6 +62,7 @@ public class Prompt {
         this.receiveInputActions = builder.receiveInputActions;
         this.onValidateInputAction = builder.onValidateInputAction;
         this.delay = builder.delay;
+        this.timeLimit = builder.timeLimit;
     }
 
     public String getId() {
@@ -85,9 +88,13 @@ public class Prompt {
     public void prompt(JavaPlugin plugin, Player player){
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             for(String s : allText){
-                player.sendMessage(Utils.tr(s));
+                player.sendMessage(Utils.tr(s.replaceAll("%timeLimit%", timeLimit+"")));
             }
         }, delay);
+    }
+
+    public int getTimeLimit() {
+        return timeLimit;
     }
 
     public static class Builder{
@@ -97,6 +104,7 @@ public class Prompt {
         private PromptInputType type = PromptInputType.NONE;
         private LinkedHashMap<Action.BasePromptAction, ActionContext> receiveInputActions = new LinkedHashMap<>();
         private int delay;
+        private int timeLimit;
 
         // Prompt validator returns true by default.
         private Function<String, Boolean> onValidateInputAction = s -> true;
@@ -122,6 +130,11 @@ public class Prompt {
 
         public Builder setId(String id){
             this.id = id;
+            return this;
+        }
+
+        public Builder setTimeLimit(int timeLimit){
+            this.timeLimit = timeLimit;
             return this;
         }
 

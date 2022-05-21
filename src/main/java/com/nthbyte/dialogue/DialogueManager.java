@@ -48,7 +48,20 @@ public class DialogueManager {
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::closeInventory);
 
         playersInDialogue.put(player.getUniqueId(), dialogue);
-        dialogue.getCurrentPrompt().prompt(plugin, player);
+        Prompt currentPrompt = dialogue.getCurrentPrompt();
+        currentPrompt.prompt(plugin, player);
+
+        int timeLimit = currentPrompt.getTimeLimit();
+        if(timeLimit > 0){
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                if(dialogue.getCurrentPrompt() == currentPrompt){
+                    if(dialogue.hasMorePrompts()){
+                        player.sendMessage();
+                    }
+                }
+            }, timeLimit * 20L);
+        }
+
     }
 
     public void endDialogue(Player player, DialogueEndCause cause){
