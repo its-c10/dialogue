@@ -20,7 +20,7 @@ import java.util.function.Function;
  * The listener for all input and dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.2.0
+ * @version 1.4.4.0
  */
 public class DialogueListener implements Listener {
 
@@ -123,7 +123,9 @@ public class DialogueListener implements Listener {
 
         boolean shouldRepeatPrompt = dialogue.shouldRepeatPrompt();
         if(!InputFormatValidator.isValidFormat(inputType, input)){
-            player.sendMessage(Utils.tr("&cThe input is not in the valid format! The input type should be " + inputType));
+            String rawMsg = DialogueAPI.getMessagesConfig().INVALID_INPUT.replace("%inputType%", inputType.toString());
+            String msg = rawMsg.replace("%inputType%", inputType.toString());
+            player.sendMessage(Utils.tr(msg));
             if(shouldRepeatPrompt){
                 prompt.prompt(hookedPlugin, player);
             }
@@ -134,27 +136,42 @@ public class DialogueListener implements Listener {
         Bukkit.getPluginManager().callEvent(validationEvent);
 
         Function<String, Boolean> validationAction = prompt.getOnValidateInputAction();
-        if(!validationEvent.isValidInput() || (validationAction != null && !validationAction.apply(input))){
-            if(shouldRepeatPrompt){
-                prompt.prompt(hookedPlugin, player);
-            }
-            return;
+
+        if(prompt.getRetryLimit() != -1){
+            prompt.incrementRetries();
         }
 
-        Bukkit.getPluginManager().callEvent(new ReceiveInputEvent(player, prompt, input));
+        boolean isValidInput = validationEvent.isValidInput() && (validationAction == null || validationAction.apply(input));
+        if(isValidInput){
+            Bukkit.getPluginManager().callEvent(new ReceiveInputEvent(player, prompt, input));
+        }
 
-        if(dialogue.hasMorePrompts()){
+        boolean atRetryLimit = prompt.isAtRetryLimit();
+        if(!isValidInput && shouldRepeatPrompt && !atRetryLimit) {
+            prompt.prompt(hookedPlugin, player);
+        }else if(!isValidInput && atRetryLimit){
+            player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().REACHED_RETRY_LIMIT));
+            if(prompt.willStopDialougeOnFailure()){
+                endDialogue(dialogue, player);
+            }else{
+                dialogue.nextPrompt(hookedPlugin, player);
+            }
+        } else if(dialogue.hasMorePrompts()){
             dialogue.nextPrompt(hookedPlugin, player);
         }else{
-            Map<String, String> inputStorage = DialogueManager.getInputStoragePerPlayer().get(player);
-            for(ActionContext context : dialogue.getEndActions().values()){
-                if(context != null){
-                    context.setInputStorage(inputStorage);
-                }
-            }
-            dialogueManager.endDialogue(player, DialogueEndCause.NO_MORE_PROMPTS);
+            endDialogue(dialogue, player);
         }
 
+    }
+
+    private void endDialogue(Dialogue dialogue, Player player){
+        Map<String, String> inputStorage = DialogueManager.getInputStoragePerPlayer().get(player);
+        for(ActionContext context : dialogue.getEndActions().values()){
+            if(context != null){
+                context.setInputStorage(inputStorage);
+            }
+        }
+        dialogueManager.endDialogue(player, DialogueEndCause.NO_MORE_PROMPTS);
     }
 
 }
