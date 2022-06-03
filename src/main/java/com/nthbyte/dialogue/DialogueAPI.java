@@ -11,7 +11,7 @@ import java.io.IOException;
  * An API that completely eliminates your need for the ConversationsAPI
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.4.0
+ * @version 1.4.5.0
  */
 public class DialogueAPI {
 
@@ -23,13 +23,13 @@ public class DialogueAPI {
      *
      * @param hookingPlugin A plugin instance.
      */
-    public static void hook(JavaPlugin hookingPlugin){
+    public static void hook(JavaPlugin hookingPlugin) {
 
         dialogueManager = new DialogueManager(hookingPlugin);
         hookingPlugin.getServer().getPluginManager().registerEvents(new DialogueListener(hookingPlugin, dialogueManager), hookingPlugin);
 
         File messagesFile = new File(hookingPlugin.getDataFolder() + File.separator + "dialogue" + File.separator + "messages.yml");
-        if(!messagesFile.exists()){
+        if (!messagesFile.exists()) {
             new File(hookingPlugin.getDataFolder() + File.separator + "dialogue").mkdirs();
             hookingPlugin.saveResource("messages.yml", false);
             File currentMessagesFile = new File(hookingPlugin.getDataFolder(), "messages.yml");
@@ -49,17 +49,17 @@ public class DialogueAPI {
      * @param player The player we are checking.
      * @return If the player is having dialogue or being prompted.
      */
-    public static boolean isHavingDialogue(Player player){
+    public static boolean isHavingDialogue(Player player) {
         return dialogueManager.isConversing(player);
     }
 
     /**
      * Starts a new dialogue.
      *
-     * @param player The player you wish to start a dialogue with.
+     * @param player   The player you wish to start a dialogue with.
      * @param dialogue The dialogue.
      */
-    public static void startDialogue(Player player, Dialogue dialogue){
+    public static void startDialogue(Player player, Dialogue dialogue) {
         dialogueManager.startDialogue(player, dialogue);
     }
 
@@ -67,9 +67,9 @@ public class DialogueAPI {
      * Ends the player's dialogue.
      *
      * @param player The player that we wish to end dialogue for.
-     * @param cause The reason the dialogue ended.
+     * @param cause  The reason the dialogue ended.
      */
-    public static void endDialogue(Player player, DialogueEndCause cause){
+    public static void endDialogue(Player player, DialogueEndCause cause) {
         dialogueManager.endDialogue(player, cause);
     }
 

@@ -9,7 +9,7 @@ import org.bukkit.event.HandlerList;
  * Event fired when you receive input from a player post-validation.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.4.0
+ * @version 1.4.5.0
  */
 public class ReceiveInputEvent extends Event {
 
@@ -19,13 +19,15 @@ public class ReceiveInputEvent extends Event {
     private String input;
     private Prompt prompt;
 
-    public ReceiveInputEvent(Player player, Prompt prompt, String input){
+    public ReceiveInputEvent(Player player, Prompt prompt, String input) {
         this.player = player;
         this.input = input;
         this.prompt = prompt;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HandlerList getHandlers() {
         return HANDLERS_LIST;

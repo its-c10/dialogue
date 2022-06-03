@@ -9,15 +9,16 @@ import org.bukkit.World;
  * Context that provides the given action with a location.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.4.0
+ * @version 1.4.5.0
  */
 public class LocationContext extends ActionContext<Location> {
 
-    public LocationContext(Location location){
+    public LocationContext(Location location) {
         this.data = location;
     }
 
-    public LocationContext(){}
+    public LocationContext() {
+    }
 
     @Override
     public void constructData() {
@@ -28,18 +29,18 @@ public class LocationContext extends ActionContext<Location> {
                 1. You specify the world, x, y, and z
                 2. You specify the x, y, and z
          */
-        if(inputStorageCount != 3 && inputStorageCount != 4){
+        if (inputStorageCount != 3 && inputStorageCount != 4) {
             throw new IllegalStateException("The context cannot initialize its data. The input storage arguments are not valid!");
         }
 
         World world = null;
         String firstInput = inputStorage.get("world");
         // Could be a world name
-        if(firstInput != null && !StringUtils.isNumeric(firstInput)){
+        if (firstInput != null && !StringUtils.isNumeric(firstInput)) {
             world = Bukkit.getWorld(firstInput);
         }
 
-        if(world == null){
+        if (world == null) {
             world = responder.getWorld();
         }
 
@@ -50,12 +51,12 @@ public class LocationContext extends ActionContext<Location> {
                 && StringUtils.isNumeric(yInput)
                 && StringUtils.isNumeric(zInput);
 
-        if(hasValidCoordinates){
+        if (hasValidCoordinates) {
             int x = Integer.parseInt(xInput);
             int y = Integer.parseInt(yInput);
             int z = Integer.parseInt(zInput);
             this.data = new Location(world, x, y, z);
-        }else{
+        } else {
             throw new IllegalStateException("The context cannot initialize its data. The coordinates are not valid!");
         }
 

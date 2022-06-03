@@ -20,20 +20,20 @@ import java.util.function.Function;
  * The listener for all input and dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.4.0
+ * @version 1.4.5.0
  */
 public class DialogueListener implements Listener {
 
     private DialogueManager dialogueManager;
     private JavaPlugin hookedPlugin;
 
-    public DialogueListener(JavaPlugin hookedPlugin, DialogueManager dialogueManager){
+    public DialogueListener(JavaPlugin hookedPlugin, DialogueManager dialogueManager) {
         this.hookedPlugin = hookedPlugin;
         this.dialogueManager = dialogueManager;
     }
 
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent e){
+    public void onPlayerChat(AsyncPlayerChatEvent e) {
 
         Set<UUID> playersBeingPrompted = dialogueManager.getPlayersInPrompt().keySet();
 
@@ -42,7 +42,7 @@ public class DialogueListener implements Listener {
         e.getRecipients().removeIf(recipient -> playersBeingPrompted.contains(recipient.getUniqueId()));
 
         Player player = e.getPlayer();
-        if(DialogueAPI.isHavingDialogue(player)){
+        if (DialogueAPI.isHavingDialogue(player)) {
             e.setCancelled(true);
             Dialogue dialogue = dialogueManager.getCurrentDialogue(player);
             Bukkit.getScheduler().scheduleSyncDelayedTask(hookedPlugin, () -> {
@@ -76,7 +76,7 @@ public class DialogueListener implements Listener {
      * Deals with input storage (If the prompt as an input storage action)
      */
     @EventHandler
-    public void onReceiveInput(ReceiveInputEvent e){
+    public void onReceiveInput(ReceiveInputEvent e) {
 
         Prompt prompt = e.getPrompt();
         String input = e.getInput();
@@ -85,15 +85,15 @@ public class DialogueListener implements Listener {
 
             Action.BasePromptAction<ActionContext, String> onReceiveInputAction = entry.getKey();
             Player player = e.getPlayer();
-            if(onReceiveInputAction != null){
+            if (onReceiveInputAction != null) {
 
                 Map<String, String> inputStorage = DialogueManager.getInputStoragePerPlayer().get(player);
-                if(inputStorage == null) {
+                if (inputStorage == null) {
                     inputStorage = new HashMap<>();
                 }
 
                 ActionContext context = entry.getValue();
-                if(context == null){
+                if (context == null) {
                     context = new ActionContext<>();
                 }
                 context.setResponder(player);
@@ -101,7 +101,7 @@ public class DialogueListener implements Listener {
 
                 onReceiveInputAction.accept(context, input);
 
-                if(!inputStorage.isEmpty()){
+                if (!inputStorage.isEmpty()) {
                     DialogueManager.getInputStoragePerPlayer().put(player, inputStorage);
                 }
 
@@ -111,23 +111,24 @@ public class DialogueListener implements Listener {
 
     }
 
-    private void fireReceiveInputEvent(Player player, Dialogue dialogue, String input){
+    private void fireReceiveInputEvent(Player player, Dialogue dialogue, String input) {
 
         Prompt prompt = dialogue.getCurrentPrompt();
         PromptInputType inputType = prompt.getType();
 
-        if(Arrays.stream(dialogue.getEscapeSequences()).anyMatch(input::equalsIgnoreCase)){
+        if (Arrays.stream(dialogue.getEscapeSequences()).anyMatch(input::equalsIgnoreCase)) {
+            player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().ESCAPE_SEQUENCE_ENTERED));
             dialogueManager.endDialogue(player, DialogueEndCause.ESCAPE_SEQUENCE);
             return;
         }
 
         boolean shouldRepeatPrompt = dialogue.shouldRepeatPrompt();
-        if(!InputFormatValidator.isValidFormat(inputType, input)){
+        if (!InputFormatValidator.isValidFormat(inputType, input)) {
             String rawMsg = DialogueAPI.getMessagesConfig().INVALID_INPUT.replace("%inputType%", inputType.toString());
             String msg = rawMsg.replace("%inputType%", inputType.toString());
             player.sendMessage(Utils.tr(msg));
-            if(shouldRepeatPrompt){
-                prompt.prompt(hookedPlugin, player);
+            if (shouldRepeatPrompt) {
+                prompt.prompt(hookedPlugin, dialogue, player);
             }
             return;
         }
@@ -137,37 +138,37 @@ public class DialogueListener implements Listener {
 
         Function<String, Boolean> validationAction = prompt.getOnValidateInputAction();
 
-        if(prompt.getRetryLimit() != -1){
+        if (prompt.getRetryLimit() != -1) {
             prompt.incrementRetries();
         }
 
         boolean isValidInput = validationEvent.isValidInput() && (validationAction == null || validationAction.apply(input));
-        if(isValidInput){
+        if (isValidInput) {
             Bukkit.getPluginManager().callEvent(new ReceiveInputEvent(player, prompt, input));
         }
 
         boolean atRetryLimit = prompt.isAtRetryLimit();
-        if(!isValidInput && shouldRepeatPrompt && !atRetryLimit) {
-            prompt.prompt(hookedPlugin, player);
-        }else if(!isValidInput && atRetryLimit){
+        if (!isValidInput && shouldRepeatPrompt && !atRetryLimit) {
+            prompt.prompt(hookedPlugin, dialogue, player);
+        } else if (!isValidInput && atRetryLimit) {
             player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().REACHED_RETRY_LIMIT));
-            if(prompt.willStopDialougeOnFailure()){
+            if (prompt.willStopDialougeOnFailure()) {
                 endDialogue(dialogue, player);
-            }else{
+            } else {
                 dialogue.nextPrompt(hookedPlugin, player);
             }
-        } else if(dialogue.hasMorePrompts()){
+        } else if (dialogue.hasMorePrompts()) {
             dialogue.nextPrompt(hookedPlugin, player);
-        }else{
+        } else {
             endDialogue(dialogue, player);
         }
 
     }
 
-    private void endDialogue(Dialogue dialogue, Player player){
+    private void endDialogue(Dialogue dialogue, Player player) {
         Map<String, String> inputStorage = DialogueManager.getInputStoragePerPlayer().get(player);
-        for(ActionContext context : dialogue.getEndActions().values()){
-            if(context != null){
+        for (ActionContext context : dialogue.getEndActions().values()) {
+            if (context != null) {
                 context.setInputStorage(inputStorage);
             }
         }
