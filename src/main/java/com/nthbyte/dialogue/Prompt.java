@@ -14,7 +14,7 @@ import java.util.function.Function;
  * Represents a question or a request.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.5.0
+ * @version 1.4.6.0
  */
 public class Prompt {
 

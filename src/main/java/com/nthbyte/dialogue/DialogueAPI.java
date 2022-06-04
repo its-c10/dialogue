@@ -1,6 +1,7 @@
 package com.nthbyte.dialogue;
 
 import com.google.common.io.Files;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,7 +12,7 @@ import java.io.IOException;
  * An API that completely eliminates your need for the ConversationsAPI
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.5.0
+ * @version 1.4.6.0
  */
 public class DialogueAPI {
 
@@ -24,6 +25,8 @@ public class DialogueAPI {
      * @param hookingPlugin A plugin instance.
      */
     public static void hook(JavaPlugin hookingPlugin) {
+
+        new Metrics(hookingPlugin, 15384);
 
         dialogueManager = new DialogueManager(hookingPlugin);
         hookingPlugin.getServer().getPluginManager().registerEvents(new DialogueListener(hookingPlugin, dialogueManager), hookingPlugin);
