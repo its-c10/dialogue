@@ -26,7 +26,7 @@ public class MessagesConfig {
     }
 
     private void loadConfig(JavaPlugin hookingPlugin) {
-        File file = new File(hookingPlugin.getDataFolder() + File.separator + "dialogue" + File.separator + "messages.yml");
+        File file = new File(hookingPlugin.getDataFolder() + File.separator + "dialogue", "messages.yml");
         this.config = YamlConfiguration.loadConfiguration(file);
     }
 

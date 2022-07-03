@@ -12,7 +12,7 @@ import java.io.IOException;
  * An API that completely eliminates your need for the ConversationsAPI
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.6.0
+ * @version 1.4.6.1
  */
 public class DialogueAPI {
 
@@ -31,11 +31,15 @@ public class DialogueAPI {
         dialogueManager = new DialogueManager(hookingPlugin);
         hookingPlugin.getServer().getPluginManager().registerEvents(new DialogueListener(hookingPlugin, dialogueManager), hookingPlugin);
 
-        File messagesFile = new File(hookingPlugin.getDataFolder() + File.separator + "dialogue" + File.separator + "messages.yml");
+        File dialogueFolder = new File(hookingPlugin.getDataFolder() + File.separator + "dialogue");
+        if(dialogueFolder.exists()){
+            dialogueFolder.mkdir();
+        }
+
+        File messagesFile = new File(hookingPlugin.getDataFolder() + File.separator + "dialogue", "messages.yml");
         if (!messagesFile.exists()) {
-            new File(hookingPlugin.getDataFolder() + File.separator + "dialogue").mkdirs();
-            hookingPlugin.saveResource("messages.yml", false);
-            File currentMessagesFile = new File(hookingPlugin.getDataFolder(), "messages.yml");
+            hookingPlugin.saveResource("dialogue_messages.yml", false);
+            File currentMessagesFile = new File(hookingPlugin.getDataFolder(), "dialogue_messages.yml");
             try {
                 Files.move(currentMessagesFile, messagesFile);
             } catch (IOException e) {

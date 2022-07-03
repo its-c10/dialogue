@@ -14,7 +14,7 @@ import java.util.function.Function;
  * Represents a question or a request.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.6.0
+ * @version 1.4.6.1
  */
 public class Prompt {
 
@@ -75,6 +75,9 @@ public class Prompt {
         this.delay = builder.delay;
         this.retryLimit = builder.retryLimit;
         this.stopUponFailure = builder.stopUponFailure;
+        if(allText.isEmpty()){
+            allText.add("No prompt text given.");
+        }
     }
 
     public String getId() {
@@ -136,9 +139,7 @@ public class Prompt {
         // Prompt validator returns true by default.
         private Function<String, Boolean> onValidateInputAction = s -> true;
 
-        public Builder() {
-            allText.add("No prompt text given.");
-        }
+        public Builder() {}
 
         public Builder addText(String text) {
             allText.add(text);
