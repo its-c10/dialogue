@@ -31,8 +31,8 @@ public class DialogueAPI {
         dialogueManager = new DialogueManager(hookingPlugin);
         hookingPlugin.getServer().getPluginManager().registerEvents(new DialogueListener(hookingPlugin, dialogueManager), hookingPlugin);
 
-        File dialogueFolder = new File(hookingPlugin.getDataFolder() + File.separator + "dialogue");
-        if(dialogueFolder.exists()){
+        File dialogueFolder = new File(hookingPlugin.getDataFolder(), "dialogue");
+        if(!dialogueFolder.exists()){
             dialogueFolder.mkdir();
         }
 
