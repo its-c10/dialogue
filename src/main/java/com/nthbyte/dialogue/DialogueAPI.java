@@ -12,7 +12,7 @@ import java.io.IOException;
  * An API that completely eliminates your need for the ConversationsAPI
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.6.1
+ * @version 1.4.7.0
  */
 public class DialogueAPI {
 

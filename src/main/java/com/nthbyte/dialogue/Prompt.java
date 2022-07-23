@@ -14,7 +14,7 @@ import java.util.function.Function;
  * Represents a question or a request.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.6.1
+ * @version 1.4.7.0
  */
 public class Prompt {
 
@@ -146,8 +146,22 @@ public class Prompt {
             return this;
         }
 
+        public Builder addText(String... text){
+            return addText(Arrays.asList(text));
+        }
+
+        public Builder addText(List<String> text){
+            allText.addAll(text);
+            return this;
+        }
+
         public Builder setText(String... text) {
             allText = Arrays.asList(text);
+            return this;
+        }
+
+        public Builder setText(List<String> text){
+            allText = text;
             return this;
         }
 

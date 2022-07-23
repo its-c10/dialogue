@@ -14,7 +14,7 @@ import java.util.Map;
  * Object that represents dialogue between the plugin and a player.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.6.1
+ * @version 1.4.7.0
  */
 public class Dialogue {
 

@@ -15,7 +15,7 @@ import java.util.UUID;
  * The manager for all dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.6.1
+ * @version 1.4.7.0
  */
 public class DialogueManager {
 
