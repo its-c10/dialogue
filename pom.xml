@@ -9,10 +9,10 @@
     <!--
         First number will increment for plugin re-writes.
         Second number I will increment whenever there's a significant change/API changes, meaning you will need to change something in your code in order to work with this current version.
-        Third number I will change whenever I add a new feature.
+        Third number I will change whenever I add a new feature (whether it's small or large).
         Fourth number I will change for bug fixes.
     -->
-    <version>1.4.0.0</version>
+    <version>1.4.7.0</version>
     <packaging>jar</packaging>
 
     <name>Dialogue</name>
@@ -49,11 +49,20 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <!-- Replace this with your package! -->
+                            <shadedPattern>com.nthbyte</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
             </plugin>
         </plugins>
         <resources>
             <resource>
-                <directory>../Personal Plugins/Dialogue/src/main/resources</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
@@ -71,6 +80,12 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>

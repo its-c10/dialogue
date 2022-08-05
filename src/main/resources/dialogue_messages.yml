@@ -1,0 +1,4 @@
+invalid-input: "&cThe input is not in the valid format! The input type should be %inputType%"
+reached-retry-limit: "&cYou've reached the retry limit!"
+reached-time-limit: "&cYou have reached the time limit to answer this prompt!"
+escape-seq-dialogue-end: "&9Dialogue has ended."

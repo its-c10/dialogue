@@ -4,7 +4,7 @@ package com.nthbyte.dialogue;
  * Reasons that the dialogue ended.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.7.0
  */
 public enum DialogueEndCause {
 
@@ -27,6 +27,16 @@ public enum DialogueEndCause {
      * Some other reason for ending the dialogue.
      */
     OTHER,
+
+    /**
+     * You have reached the retry limit.
+     */
+    RETRY_LIMIT_REACHED,
+
+    /**
+     * Time limit has been reached for the last prompt.
+     */
+    TIME_LIMIT_REACHED,
 
     /**
      * The start of another dialogue has halted the current one.

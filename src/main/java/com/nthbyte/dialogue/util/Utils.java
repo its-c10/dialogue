@@ -1,4 +1,4 @@
-package com.nthbyte.dialogue;
+package com.nthbyte.dialogue.util;
 
 import org.bukkit.ChatColor;
 
@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
  * Utility class.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.7.0
  */
 public class Utils {
 
@@ -16,7 +16,7 @@ public class Utils {
      * @param s a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
      */
-    public static String tr(String s){
+    public static String tr(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 

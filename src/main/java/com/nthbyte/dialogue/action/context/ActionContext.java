@@ -8,7 +8,7 @@ import java.util.Map;
  * Container that provides a given action with specific information/data it needs to run successfully.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.0.0
+ * @version 1.4.7.0
  */
 public class ActionContext<T> {
 
@@ -19,11 +19,11 @@ public class ActionContext<T> {
     protected Player responder;
     protected T data = null;
 
-    public ActionContext(T data){
+    public ActionContext(T data) {
         this.data = data;
     }
 
-    public ActionContext(){ }
+    public ActionContext() {}
 
     public Player getResponder() {
         return responder;
@@ -37,18 +37,22 @@ public class ActionContext<T> {
         return inputStorage;
     }
 
+    public String getStoredInput(String key) {
+        return inputStorage.get(key);
+    }
+
     public void setInputStorage(Map<String, String> inputStorage) {
         this.inputStorage = inputStorage;
     }
 
-    public boolean hasStoredInputs(){
+    public boolean hasStoredInputs() {
         return inputStorage != null && !inputStorage.isEmpty();
     }
 
     /**
-     * Will attempt to initialize data via it's constructor.
+     * Will attempt to initialize the data via it's constructor.
      */
-    public void initData(){}
+    public void constructData() {}
 
     public T getData() {
         return data;
