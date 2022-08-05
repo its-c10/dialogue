@@ -1,6 +1,9 @@
 package com.nthbyte.dialogue;
 
 import com.nthbyte.dialogue.action.context.ActionContext;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,12 +33,14 @@ public class DialogueManager {
         this.plugin = plugin;
     }
 
-    public boolean isConversing(Player player){
-        return playersInDialogue.containsKey(player.getUniqueId());
+    public boolean isConversing(Audience player){
+        UUID uuid = player.get(Identity.UUID).get();
+        return playersInDialogue.containsKey(uuid);
     }
 
-    public void startDialogue(Player player, Dialogue dialogue){
+    public void startDialogue(Audience player, Dialogue dialogue){
 
+        UUID uuid = player.get(Identity.UUID).get();
         // They are trying start a dialogue that has previously already ended.
         if(dialogue.getCurrentIndexPrompt() != 0){
             throw new IllegalStateException("You can not start a dialogue that has already ended!");
@@ -45,13 +50,15 @@ public class DialogueManager {
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, player::closeInventory);
 
-        playersInDialogue.put(player.getUniqueId(), dialogue);
+        playersInDialogue.put(uuid, dialogue);
         dialogue.getCurrentPrompt().prompt(player);
     }
 
-    public void endDialogue(Player player, DialogueEndCause cause){
+    public void endDialogue(Audience player, DialogueEndCause cause){
 
-        Dialogue endedDialogue = playersInDialogue.remove(player.getUniqueId());
+        UUID uuid = player.get(Identity.UUID).get();
+        Dialogue endedDialogue = playersInDialogue.remove(player);
+
         if(endedDialogue == null) return;
 
         for(Map.Entry<Action.BasePromptAction, ActionContext> pair : endedDialogue.getEndActions().entrySet()){

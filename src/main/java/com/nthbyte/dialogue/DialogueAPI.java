@@ -1,6 +1,7 @@
 package com.nthbyte.dialogue;
 
-import org.bukkit.entity.Player;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.audience.ForwardingAudience;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -29,7 +30,7 @@ public class DialogueAPI {
      * @param player The player we are checking.
      * @return If the player is having dialogue or being prompted.
      */
-    public static boolean isHavingDialogue(Player player){
+    public static boolean isHavingDialogue(Audience player){
         return dialogueManager.isConversing(player);
     }
 
@@ -39,7 +40,7 @@ public class DialogueAPI {
      * @param player The player you wish to start a dialogue with.
      * @param dialogue The dialogue.
      */
-    public static void startDialogue(Player player, Dialogue dialogue){
+    public static void startDialogue(Audience player, Dialogue dialogue){
         dialogueManager.startDialogue(player, dialogue);
     }
 
