@@ -61,7 +61,9 @@ public class DialogueManager {
                 Dialogue currentDialogue = playersInDialogue.get(player.getUniqueId());
                 // They are still currently in this dialogue
                 if(currentDialogue == dialogue){
-                    player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().REACHED_TIME_LIMIT));
+                    if(DialogueAPI.getMessagesConfig().REACHED_TIME_LIMIT != null){
+                        player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().REACHED_TIME_LIMIT));
+                    }
                     endDialogue(player, DialogueEndCause.TIME_LIMIT_REACHED);
                 }
             }, dialogue.getTimeLimit() * 20L);

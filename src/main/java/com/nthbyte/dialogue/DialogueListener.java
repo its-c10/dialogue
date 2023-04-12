@@ -117,16 +117,20 @@ public class DialogueListener implements Listener {
         PromptInputType inputType = prompt.getType();
 
         if (Arrays.stream(dialogue.getEscapeSequences()).anyMatch(input::equalsIgnoreCase)) {
-            player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().ESCAPE_SEQUENCE_ENTERED));
+            if(DialogueAPI.getMessagesConfig().ESCAPE_SEQUENCE_ENTERED != null){
+                player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().ESCAPE_SEQUENCE_ENTERED));
+            }
             dialogueManager.endDialogue(player, DialogueEndCause.ESCAPE_SEQUENCE);
             return;
         }
 
         boolean shouldRepeatPrompt = dialogue.shouldRepeatPrompt();
         if (!InputFormatValidator.isValidFormat(inputType, input)) {
-            String rawMsg = DialogueAPI.getMessagesConfig().INVALID_INPUT.replace("%inputType%", inputType.toString());
-            String msg = rawMsg.replace("%inputType%", inputType.toString());
-            player.sendMessage(Utils.tr(msg));
+            if(DialogueAPI.getMessagesConfig().INVALID_INPUT != null){
+                String rawMsg = DialogueAPI.getMessagesConfig().INVALID_INPUT.replace("%inputType%", inputType.toString());
+                String msg = rawMsg.replace("%inputType%", inputType.toString());
+                player.sendMessage(Utils.tr(msg));
+            }
             if (shouldRepeatPrompt) {
                 prompt.prompt(hookedPlugin, dialogue, player);
             }
@@ -151,7 +155,9 @@ public class DialogueListener implements Listener {
         if (!isValidInput && shouldRepeatPrompt && !atRetryLimit) {
             prompt.prompt(hookedPlugin, dialogue, player);
         } else if (!isValidInput && atRetryLimit) {
-            player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().REACHED_RETRY_LIMIT));
+            if(DialogueAPI.getMessagesConfig().REACHED_RETRY_LIMIT != null){
+                player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().REACHED_RETRY_LIMIT));
+            }
             if (prompt.willStopDialougeOnFailure()) {
                 endDialogue(dialogue, player);
             } else {
