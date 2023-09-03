@@ -32,7 +32,7 @@ project
 
 ```xml
 <dependency>
-    <groupId>com.github.nthByte-LLC</groupId>
+    <groupId>com.github.its-c10</groupId>
     <artifactId>dialogue</artifactId>
     <version>Tag</version>
 </dependency>
@@ -51,7 +51,7 @@ repositories {
 
 ```gradle
 dependencies {
-    implementation 'com.github.nthByte-LLC:dialogue:Tag'
+    implementation 'com.github.its-c10:dialogue:Tag'
 }
 ```
 
