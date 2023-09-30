@@ -2,6 +2,8 @@ package com.nthbyte.dialogue;
 
 import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
+import com.nthbyte.dialogue.input.context.InputTypeContext;
+import com.nthbyte.dialogue.input.PromptInputType;
 import com.nthbyte.dialogue.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,7 +16,7 @@ import java.util.function.Function;
  * Represents a question or a request.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.7.1
+ * @version 1.5.0.0
  */
 public class Prompt {
 
@@ -26,7 +28,7 @@ public class Prompt {
     /**
      * The type of prompt this is.
      */
-    private PromptInputType type;
+    private InputTypeContext type;
 
     /**
      * The allText that is sent to the player.
@@ -69,7 +71,7 @@ public class Prompt {
     private Prompt(Prompt.Builder builder) {
         this.id = builder.id;
         this.allText = builder.allText;
-        this.type = builder.type;
+        this.type = builder.inputTypeContext;
         this.receiveInputActions = builder.receiveInputActions;
         this.onValidateInputAction = builder.onValidateInputAction;
         this.delay = builder.delay;
@@ -84,7 +86,7 @@ public class Prompt {
         return id;
     }
 
-    public PromptInputType getType() {
+    public InputTypeContext getType() {
         return type;
     }
 
@@ -130,7 +132,7 @@ public class Prompt {
 
         private String id = "";
         private List<String> allText = new ArrayList<>();
-        private PromptInputType type = PromptInputType.NONE;
+        private InputTypeContext inputTypeContext = PromptInputType.NONE;
         private LinkedHashMap<Action.BasePromptAction, ActionContext> receiveInputActions = new LinkedHashMap<>();
         private int delay;
         private int retryLimit = -1;
@@ -165,8 +167,8 @@ public class Prompt {
             return this;
         }
 
-        public Builder setType(PromptInputType type) {
-            this.type = type;
+        public Builder setType(InputTypeContext type) {
+            this.inputTypeContext = type;
             return this;
         }
 

@@ -4,7 +4,7 @@ import com.nthbyte.dialogue.action.Action;
 import com.nthbyte.dialogue.action.context.ActionContext;
 import com.nthbyte.dialogue.event.ReceiveInputEvent;
 import com.nthbyte.dialogue.event.ValidateInputEvent;
-import com.nthbyte.dialogue.util.InputFormatValidator;
+import com.nthbyte.dialogue.input.context.InputTypeContext;
 import com.nthbyte.dialogue.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ import java.util.function.Function;
  * The listener for all input and dialogue.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.7.1
+ * @version 1.5.0.0
  */
 public class DialogueListener implements Listener {
 
@@ -114,7 +114,7 @@ public class DialogueListener implements Listener {
     private void fireReceiveInputEvent(Player player, Dialogue dialogue, String input) {
 
         Prompt prompt = dialogue.getCurrentPrompt();
-        PromptInputType inputType = prompt.getType();
+        InputTypeContext inputType = prompt.getType();
 
         if (Arrays.stream(dialogue.getEscapeSequences()).anyMatch(input::equalsIgnoreCase)) {
             if(DialogueAPI.getMessagesConfig().ESCAPE_SEQUENCE_ENTERED != null){
@@ -125,7 +125,7 @@ public class DialogueListener implements Listener {
         }
 
         boolean shouldRepeatPrompt = dialogue.shouldRepeatPrompt();
-        if (!InputFormatValidator.isValidFormat(inputType, input)) {
+        if (!inputType.isValidInputType(input)) {
             if(DialogueAPI.getMessagesConfig().INVALID_INPUT != null){
                 String rawMsg = DialogueAPI.getMessagesConfig().INVALID_INPUT.replace("%inputType%", inputType.toString());
                 String msg = rawMsg.replace("%inputType%", inputType.toString());

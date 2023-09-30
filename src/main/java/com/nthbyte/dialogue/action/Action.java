@@ -12,7 +12,7 @@ import java.util.function.BiConsumer;
  * Default actions that you can use for different stages of the prompt.
  *
  * @author <a href="linktr.ee/c10_">Caleb Owens</a>
- * @version 1.4.7.1
+ * @version 1.5.0.0
  */
 public final class Action {
 
@@ -83,6 +83,8 @@ public final class Action {
         }
         context.getResponder().sendMessage(Utils.tr(message));
     });
+
+    //
 
 }
 
