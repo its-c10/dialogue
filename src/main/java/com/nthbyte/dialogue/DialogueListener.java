@@ -40,9 +40,8 @@ public class DialogueListener implements Listener {
         // Blocks all messages for recipients that are being prompted at the moment.
         // Players that are being prompted shouldn't receive any messages from other players.
         e.getRecipients().removeIf(recipient -> playersBeingPrompted.contains(recipient.getUniqueId()));
-
         Player player = e.getPlayer();
-        if (DialogueAPI.isHavingDialogue(player)) {
+        if (dialogueManager.isConversing(player)) {
             e.setCancelled(true);
             Dialogue dialogue = dialogueManager.getCurrentDialogue(player);
             Bukkit.getScheduler().scheduleSyncDelayedTask(hookedPlugin, () -> {
