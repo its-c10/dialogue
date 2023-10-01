@@ -41,6 +41,21 @@ project
 Replace "Tag" with a release tag for Dialogue. You can see the latest
 version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>.
 
+#### _IMPORTANT_
+If you are using Dialogue in multiple plugins that are being used on the same server, you will need to relocate the shaded Dialogue packages.
+If you do this correctly, your maven shade plugin should have a configuration that looks like this (<\relocation\> block)
+```xml
+<configuration>
+    <createDependencyReducedPom>false</createDependencyReducedPom>
+    <relocations>
+        <relocation>
+            <pattern>com.nthbyte.dialogue</pattern>
+            <shadedPattern>com.nthbyte.dialogue.insert-unique-phrase-here</shadedPattern>
+        </relocation>
+    </relocations>
+</configuration>
+```
+
 ### Gradle
 
 ```gradle
@@ -58,6 +73,8 @@ dependencies {
 Replace "Tag" with a release tag for Dialogue. You can see the latest
 version <a href="https://github.com/nthByte-LLC/dialogue/releases">here</a>.
 
+#### _IMPORTANT_
+Like in the maven section, you will need to relocate the dialogue packages if you plan to use this API in multiple plugins being used on the server.
 ## Usage
 
 Firstly, you want to hook into the API. Put this line in your main class.
