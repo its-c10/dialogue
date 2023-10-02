@@ -126,9 +126,7 @@ public class DialogueListener implements Listener {
         boolean shouldRepeatPrompt = dialogue.shouldRepeatPrompt();
         if (!inputType.isValidInputType(input)) {
             if(DialogueAPI.getMessagesConfig().INVALID_INPUT != null){
-                String rawMsg = DialogueAPI.getMessagesConfig().INVALID_INPUT.replace("%inputType%", inputType.toString());
-                String msg = rawMsg.replace("%inputType%", inputType.toString());
-                player.sendMessage(Utils.tr(msg));
+                player.sendMessage(Utils.tr(DialogueAPI.getMessagesConfig().INVALID_INPUT));
             }
             if (shouldRepeatPrompt) {
                 prompt.prompt(hookedPlugin, dialogue, player);

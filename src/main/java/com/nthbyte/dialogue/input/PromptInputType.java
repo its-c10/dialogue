@@ -73,7 +73,7 @@ public class PromptInputType {
     /**
      * Input type context for input that contains lowercase letters, i.e. "hello world"
      */
-    public static final InputTypeContext LOWECASE_LETTERS = new InputTypeContext(null) {
+    public static final InputTypeContext LOWERCASE_LETTERS = new InputTypeContext(null) {
         @Override
         public boolean isValidInputType(String input) {
             return StringUtils.isAllLowerCase(input);
